@@ -1,7 +1,13 @@
-export default function App() {
+import RegisterPage from "./pages/registration/pages/RegisterPage";
+
+const App = () => {
   return (
-    <h1 className="text-3xl font-bold underline">
-      Hello world!
-    </h1>
-  )
-}
+    <>
+      <div className="overflow-hidden">  
+        <RegisterPage />
+      </div>
+    </>
+  );
+};
+
+export default App;
