@@ -1,131 +1,103 @@
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { registerSchema, RegisterSchema } from "../validation/registerSchema";
 import Label from "./Label";
-import Input from "./Input";
+import CustomInput from "./CustomInput";
+import { useRegisterUser } from "../hooks/UseRegisterData";
 
-interface RegisterFormProps {
-  onSubmit: (formData: {
-    username: string;
-    email: string;
-    password: string;
-  }) => void;
-}
-
-const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
-  const [formData, setFormData] = useState({
-    firstname: "",
-    lastname: "",
-    username: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
+const RegisterForm: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const { register, handleSubmit, formState: { errors } } = useForm<RegisterSchema>({
+    resolver: zodResolver(registerSchema),
+  });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { id, value } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [id]: value,
-    }));
-  };
+  const { registerUser, data, isLoading, error } = useRegisterUser();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match");
-      return;
-    }
-    onSubmit({
-      username: formData.username,
-      email: formData.email,
-      password: formData.password,
-    });
-  };
-
-  const toggleShowPassword = () => {
-    setShowPassword(!showPassword);
+  const onFormSubmit = async (formData: RegisterSchema) => {
+    await registerUser({...formData});
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-4">
       <div>
         <Label htmlFor="firstname">First name</Label>
-        <Input
+        <CustomInput
           id="firstname"
-          type="text"
-          value={formData.firstname}
-          onChange={handleChange}
           placeholder="Jesse"
-          required
+          register={register("first_name")}
         />
+        {errors.first_name && <p className="text-red-600">{errors.first_name.message}</p>}
       </div>
 
       <div>
         <Label htmlFor="lastname">Last name</Label>
-        <Input
+        <CustomInput
           id="lastname"
-          type="text"
-          value={formData.lastname}
-          onChange={handleChange}
           placeholder="Pinkman"
-          required
+          register={register("last_name")}
         />
+        {errors.last_name && <p className="text-red-600">{errors.last_name.message}</p>}
       </div>
 
       <div>
         <Label htmlFor="username">Username</Label>
-        <Input
+        <CustomInput
           id="username"
-          type="text"
-          value={formData.username}
-          onChange={handleChange}
           placeholder="Jessepinkman123"
-          required
+          register={register("username")}
         />
+        {errors.username && <p className="text-red-600">{errors.username.message}</p>}
       </div>
 
       <div>
         <Label htmlFor="email">Email</Label>
-        <Input
+        <CustomInput
           id="email"
-          type="email"
-          value={formData.email}
-          onChange={handleChange}
           placeholder="jesse.pinkman@example.com"
-          required
+          register={register("email")}
         />
+        {errors.email && <p className="text-red-600">{errors.email.message}</p>}
+      </div>
+
+      <div>
+        <Label htmlFor="hospital_name">Hospital name</Label>
+        <CustomInput
+          id="hospital_name"
+          placeholder="Hospital name"
+          register={register("hospital_name")}
+        />
+        {errors.hospital_name && <p className="text-red-600">{errors.hospital_name?.message}</p>}
       </div>
 
       <div>
         <Label htmlFor="password">Password</Label>
-        <Input
+        <CustomInput
           id="password"
           type={showPassword ? "text" : "password"}
-          value={formData.password}
-          onChange={handleChange}
           placeholder="Enter your password"
-          required
+          register={register("password")}
         />
+        {errors.password && <p className="text-red-600">{errors.password.message}</p>}
       </div>
 
       <div>
         <Label htmlFor="confirmPassword">Confirm Password</Label>
-        <Input
+        <CustomInput
           id="confirmPassword"
           type={showPassword ? "text" : "password"}
-          value={formData.confirmPassword}
-          onChange={handleChange}
           placeholder="Confirm your password"
-          required
+          register={register("confirmPassword")}
         />
+        {errors.confirmPassword && <p className="text-red-600">{errors.confirmPassword.message}</p>}
       </div>
 
       <div className="flex items-center">
-        <Input
+        <input
           id="showPassword"
           type="checkbox"
-          value={showPassword.toString()}
-          onChange={toggleShowPassword}
+          checked={showPassword}
+          onChange={() => setShowPassword(!showPassword)}
           className="h-4 w-4 text-indigo-600 border-gray-300 rounded"
         />
         <Label
@@ -139,9 +111,13 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
       <button
         type="submit"
         className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+        disabled={isLoading}
       >
-        Register
+        {isLoading ? "Registering..." : "Register"}
       </button>
+
+      {error && <p className="text-red-600 mt-2">{error}</p>}
+      {data && <p className="text-green-600 mt-2">Registration successful!</p>}
     </form>
   );
 };
