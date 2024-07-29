@@ -1,30 +1,7 @@
 import React from "react";
 import LoginForm from "../components/LoginForm";
 
-const LoginPage: React.FC = () => {
-  const handleLogin = async (formData: { username: string; password: string }) => {
-    try {
-      const response = await fetch("http://127.0.0.1:8000/auth/jwt/create/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        // Save the token in localStorage or state management
-        localStorage.setItem("token", data.access);
-        alert("Login successful!");
-      } else {
-        alert("Login failed!");
-      }
-    } catch (error) {
-      console.error("Error during login:", error);
-      alert("An error occurred. Please try again.");
-    }
-  };
+const LoginPage= () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -34,7 +11,7 @@ const LoginPage: React.FC = () => {
             Sign in to your account
           </h2>
         </div>
-        <LoginForm onSubmit={handleLogin} />
+        <LoginForm />
       </div>
     </div>
   );
