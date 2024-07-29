@@ -2,9 +2,9 @@ import React from "react";
 import LoginForm from "../components/LoginForm";
 
 const LoginPage: React.FC = () => {
-  const handleLogin = async (formData: { email: string; password: string }) => {
+  const handleLogin = async (formData: { username: string; password: string }) => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/auth/", {
+      const response = await fetch("http://127.0.0.1:8000/auth/jwt/create/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
