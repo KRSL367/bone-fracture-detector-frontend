@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema, RegisterSchema } from "../validation/registerSchema";
-import Label from "./Label";
-import CustomInput from "./CustomInput";
+import CustomInput from "../../../components/CustomInput";
 import { useRegisterUser } from "../hooks/UseRegisterData";
+import Label from "../../../components/Label";
 
 const RegisterForm: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);

@@ -5,6 +5,8 @@ export interface ApiResponse<T> {
     data: T | null;
     status: number | null;
     error: string | null;
+    access?: string;
+    user?: T;
   }
   
   const usePostData = async <T>(url: string, payload: T): Promise<ApiResponse<T>> => {
@@ -14,6 +16,8 @@ export interface ApiResponse<T> {
         data: response.data,
         status: response.status,
         error: null,
+        access: (response.data as any).access,
+        user: (response.data as any).user,
       };
     } catch (error) {
       if (axios.isAxiosError(error)) {
