@@ -1,32 +1,29 @@
-import React, { useState } from "react";
+import React from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { loginSchema, LoginSchema } from "../validations/loginSchema";
 
 interface LoginFormProps {
   onSubmit: (formData: { username: string; password: string }) => void;
 }
 
 const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
-  const [formData, setFormData] = useState({ username: "", password: "" });
-  const [showPassword, setShowPassword] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginSchema>({
+    resolver: zodResolver(loginSchema),
+  });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { id, value } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [id]: value,
-    }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onSubmit(formData);
-  };
+  const [showPassword, setShowPassword] = React.useState(false);
 
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div>
         <label
           htmlFor="username"
@@ -37,12 +34,13 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
         <input
           type="text"
           id="username"
-          value={formData.username}
-          onChange={handleChange}
           placeholder="Enter your username"
           className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-          required
+          {...register("username")}
         />
+        {errors.username && (
+          <p className="mt-2 text-sm text-red-600">{errors.username.message}</p>
+        )}
       </div>
 
       <div>
@@ -55,12 +53,13 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
         <input
           type={showPassword ? "text" : "password"}
           id="password"
-          value={formData.password}
-          onChange={handleChange}
           placeholder="Enter your password"
           className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-          required
+          {...register("password")}
         />
+        {errors.password && (
+          <p className="mt-2 text-sm text-red-600">{errors.password.message}</p>
+        )}
       </div>
 
       <div className="flex items-center">
