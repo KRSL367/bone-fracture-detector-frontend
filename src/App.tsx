@@ -1,3 +1,4 @@
+import LoginPage from "./pages/login/pages/LoginPage";
 import RegisterPage from "./pages/registration/pages/RegisterPage";
 
 const App = () => {
@@ -5,6 +6,7 @@ const App = () => {
     <>
       <div className="overflow-hidden">  
         <RegisterPage />
+        <LoginPage />
       </div>
     </>
   );
