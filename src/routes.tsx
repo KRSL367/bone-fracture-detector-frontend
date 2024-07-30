@@ -1,23 +1,26 @@
-import React from 'react';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import LoginPage from './pages/login/pages/LoginPage';
-import { AuthProvider } from './components/authContext';
-import HomePage from './pages/HomePage';
-import RegisterPage from './pages/registration/pages/RegisterPage';
-import Layout from './pages/Layout';
+import React from "react";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import LoginPage from "./pages/login/pages/LoginPage";
+import { AuthProvider } from "./components/authContext";
+import HomePage from "./pages/HomePage";
+import RegisterPage from "./pages/registration/pages/RegisterPage";
+import Layout from "./pages/Layout";
+import ProtectedRoute from "./ProtectedRoute";
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: (
+      <ProtectedRoute>
         <Layout />
+      </ProtectedRoute>
     ),
     children: [
-      { path: '/', element: <HomePage /> },
-      { path: 'register', element: <RegisterPage /> },
+      { path: "/", element: <HomePage /> },
+      { path: "register", element: <RegisterPage /> },
     ],
   },
-  { path: '/login', element: <LoginPage /> },
+  { path: "/login", element: <LoginPage /> },
 ]);
 
 const AppRouter: React.FC = () => (

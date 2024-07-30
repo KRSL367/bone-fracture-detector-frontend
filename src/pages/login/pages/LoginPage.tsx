@@ -1,6 +1,17 @@
+import React from "react";
 import LoginForm from "../components/LoginForm";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../../components/authContext";
 
-const LoginPage= () => {
+const LoginPage = () => {
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+
+  React.useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/");
+    }
+  }, [isAuthenticated, navigate]);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
