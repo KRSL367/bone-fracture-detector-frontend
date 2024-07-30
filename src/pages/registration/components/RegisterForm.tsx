@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema, RegisterSchema } from "../validation/registerSchema";
 import CustomInput from "../../../components/CustomInput";
-import { useRegisterUser } from "../hooks/useRegisterData";
+import { useRegisterUser } from "../hooks/UseRegisterData";
 import Label from "../../../components/Label";
 
 const RegisterForm: React.FC = () => {
