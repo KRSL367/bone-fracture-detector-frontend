@@ -6,7 +6,7 @@ export interface ResendEmailUser {
   }
 
 
-export const useResendActivateEmail = () => {
+export const useResendEmail = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [data, setData] = useState<ResendEmailUser | null>(null);
