@@ -33,9 +33,9 @@ export const useLoginUser = () => {
     if (response?.access && response?.user) {
       const { access, user } = response;
       login(access, user);
-      console.log({access})
-
+      
     }
+
 
     if (response.error) {
       setError(response.error);

@@ -8,7 +8,7 @@ apiClient.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("authToken");
     if (token) {
-      config.headers.Authorization = `BEARER ${token}`;
+      config.headers.Authorization = `JWT ${token}`;
     }
     return config;
   },
