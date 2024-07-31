@@ -5,6 +5,7 @@ import { LoginSchema, loginSchema } from "../validations/loginSchema";
 import Label from "../../../components/Label";
 import CustomInput from "../../../components/CustomInput";
 import { useLoginUser } from "../hooks/useLoginUser";
+import { Link } from "react-router-dom";
 
 const RegisterForm: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -55,12 +56,18 @@ const RegisterForm: React.FC = () => {
           onChange={() => setShowPassword(!showPassword)}
           className="h-4 w-4 text-indigo-600 border-gray-300 rounded"
         />
-        <Label
-          htmlFor="showPassword"
-          className="ml-2 block text-sm text-gray-900"
-        >
-          Show Password
-        </Label>
+        <div className="flex justify-between  w-full"  > 
+          <Label
+            htmlFor="showPassword"
+            className="ml-2 block text-sm text-gray-900"
+          >
+            Show Password
+          </Label>
+
+          <Link to="/reset-password" className="text-indigo-600">
+            Forgot password?
+          </Link>
+        </div>
       </div>
       <button
         type="submit"
