@@ -9,6 +9,8 @@ import ProtectedRoute from "./ProtectedRoute";
 import ResendEmailPage from "./pages/registration/pages/ResendEmailPage";
 import ActivationPage from "./pages/registration/pages/ActivationPage";
 import ResetPasswordEmailPage from "./pages/registration/pages/ResetPasswordEmailPage";
+import ResetPasswordPage from "./pages/registration/pages/ResetPasswordPage";
+
 
 const router = createBrowserRouter([
   {
@@ -29,7 +31,9 @@ const router = createBrowserRouter([
   },
   { path: "/login", element: <LoginPage /> },
   { path: "activate/:uid/:token/", element: <ActivationPage /> },
-  { path: "reset-password", element: <ResetPasswordEmailPage /> },
+  { path: "reset-password-email", element: <ResetPasswordEmailPage /> },
+  { path: "password-reset/:uid/:token/", element: <ResetPasswordPage /> },
+
 
 ]);
 

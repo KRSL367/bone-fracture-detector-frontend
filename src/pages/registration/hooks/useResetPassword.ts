@@ -4,7 +4,7 @@ import { ApiResponse, usePostData } from "../../../hooks/usePostData";
 export interface ResetPassword {
     uid: string;
     token: string;
-    password: string;
+    new_password: string;
     confirm_password: string;
   }
 
@@ -18,7 +18,7 @@ export const useResetPassword = () => {
     setIsLoading(true);
     setError(null);
 
-    const response: ApiResponse<ResetPassword> = await usePostData<ResetPassword>("/auth/users/reset-password-confirm/", user);
+    const response: ApiResponse<ResetPassword> = await usePostData<ResetPassword>("/auth/users/reset_password_confirm/", user);
 
     if (response.error) {
       setError(response.error);
