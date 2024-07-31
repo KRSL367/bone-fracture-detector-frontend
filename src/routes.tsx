@@ -8,6 +8,7 @@ import Layout from "./pages/Layout";
 import ProtectedRoute from "./ProtectedRoute";
 import ResendEmailPage from "./pages/registration/pages/ResendEmailPage";
 import ActivationPage from "./pages/registration/pages/ActivationPage";
+import ResetPasswordEmailForm from "./pages/registration/components/ResetPasswordEmailForm";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,8 @@ const router = createBrowserRouter([
       { path: "/", element: <HomePage /> },
       { path: "register", element: <RegisterPage /> },
       { path: "resend-email", element: <ResendEmailPage /> },
+      { path: "reset-password", element: <ResetPasswordEmailPage /> },
+
 
 
     ],
