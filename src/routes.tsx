@@ -7,6 +7,7 @@ import RegisterPage from "./pages/registration/pages/RegisterPage";
 import Layout from "./pages/Layout";
 import ProtectedRoute from "./ProtectedRoute";
 import ResendEmailPage from "./pages/registration/pages/ResendEmailPage";
+import ActivationPage from "./pages/registration/pages/ActivationPage";
 
 const router = createBrowserRouter([
   {
@@ -19,11 +20,14 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <HomePage /> },
       { path: "register", element: <RegisterPage /> },
-      { path: "send-email", element: <ResendEmailPage /> },
+      { path: "resend-email", element: <ResendEmailPage /> },
+
 
     ],
   },
   { path: "/login", element: <LoginPage /> },
+  { path: "activate/:uid/:token/", element: <ActivationPage /> },
+
 ]);
 
 const AppRouter: React.FC = () => (

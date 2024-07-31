@@ -39,7 +39,7 @@ const ResendEmailForm: React.FC = () => {
       </button>
 
       {error && <p className="text-red-600 mt-2">{error}</p>}
-      {data && <p className="text-green-600 mt-2">Resend activation link successfully!</p>}
+      {data && <p className="text-green-600 mt-2">Resend activation link successful!</p>}
     </form>
   );
 };
