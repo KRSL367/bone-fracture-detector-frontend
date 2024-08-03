@@ -1,6 +1,7 @@
 import React from "react";
 import { useAuth } from "../components/authContext";
 import { useNavigate } from "react-router-dom";
+import NavBar from "../components/NavBar";
 
 const HomePage = () => {
   const { logout } = useAuth();
@@ -13,7 +14,7 @@ const HomePage = () => {
 
   return (
     <div>
-      HomePage
+      <NavBar />
       <button
         type="button"
         onClick={handleLogout}

@@ -24,11 +24,13 @@ export const navigation = [
       id: "4",
       title: "Register",
       url: "/register",
+      onlyMobile: true,
     },
     {
       id: "5",
       title: "Login",
       url: "/login",
+      onlyMobile: true,
     },
   ];
   
