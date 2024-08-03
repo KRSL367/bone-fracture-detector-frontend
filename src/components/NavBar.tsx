@@ -32,7 +32,7 @@ const Header: React.FC = () => {
     >
       <div className="flex items-center justify-between px-5 py-4 lg:px-10">
         <a className="block w-[12rem] xl:mr-8" href="#hero">
-          <img src="your-logo-path" width={190} height={40} alt="Your Logo" />
+          <img src="path" width={190} height={40} alt="FractureX" />
         </a>
         <nav
           className={` ${
@@ -62,13 +62,13 @@ const Header: React.FC = () => {
         </nav>
         <div className="hidden lg:flex items-center">
           <a
-            href="#signup"
+            href="/register"
             className="mr-6 text-gray-700 hover:text-blue-600 transition-colors"
           >
             New account
           </a>
           <a
-            href="#login"
+            href="/register"
             className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow-lg hover:bg-blue-700 transition-colors"
           >
             Sign in
