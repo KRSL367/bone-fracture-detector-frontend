@@ -3,11 +3,12 @@ import { useLocation } from "react-router-dom";
 import { disablePageScroll, enablePageScroll } from "scroll-lock";
 import { navigation } from "../constants";
 import MenuSvg from "../assets/svg/MenuSvg";
-import profile from "../assets/profile.webp";
+import profile from '../assets/profile.webp';
 
-const NavBar: React.FC<{ isLoggedIn: boolean }> = ({ isLoggedIn }) => {
+const NavBar: React.FC = () => {
   const location = useLocation();
   const [openNavigation, setOpenNavigation] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true); // Set to true for testing
 
   const toggleNavigation = () => {
     if (openNavigation) {

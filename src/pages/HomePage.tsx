@@ -1,12 +1,10 @@
 import { useAuth } from "../components/authContext";
 import { useNavigate } from "react-router-dom";
 import NavBar from "../components/NavBar";
-import { useState } from "react";
 
 const HomePage = () => {
   const { logout } = useAuth();
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   const handleLogout = () => {
     logout();
@@ -15,7 +13,7 @@ const HomePage = () => {
 
   return (
     <div className="pt-[4.75rem] lg:pt-[5.25rem] overflow-hidden">
-      <NavBar  isLoggedIn={isLoggedIn}/>
+      <NavBar />
       <div className="flex items-center justify-center">
         <button
           type="button"
