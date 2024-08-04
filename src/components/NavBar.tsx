@@ -3,8 +3,9 @@ import { useLocation } from "react-router-dom";
 import { disablePageScroll, enablePageScroll } from "scroll-lock";
 import { navigation } from "../constants";
 import MenuSvg from "../assets/svg/MenuSvg";
+import profile from "../assets/profile.webp";
 
-const Header: React.FC = () => {
+const NavBar: React.FC<{ isLoggedIn: boolean }> = ({ isLoggedIn }) => {
   const location = useLocation();
   const [openNavigation, setOpenNavigation] = useState(false);
 
@@ -61,18 +62,30 @@ const Header: React.FC = () => {
           </div>
         </nav>
         <div className="hidden lg:flex items-center">
-          <a
-            href="/register"
-            className="mr-6 text-gray-700 hover:text-blue-600 transition-colors"
-          >
-            New account
-          </a>
-          <a
-            href="/register"
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow-lg hover:bg-blue-700 transition-colors"
-          >
-            Sign in
-          </a>
+          {isLoggedIn ? (
+            <a href="#profile" className="text-gray-700 hover:text-blue-600">
+              <img
+                src={profile}
+                alt="Profile Icon"
+                className="w-8 h-8 rounded-full"
+              />
+            </a>
+          ) : (
+            <>
+              <a
+                href="/register"
+                className="mr-6 text-gray-700 hover:text-blue-600 transition-colors"
+              >
+                New account
+              </a>
+              <a
+                href="/login"
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow-lg hover:bg-blue-700 transition-colors"
+              >
+                Sign in
+              </a>
+            </>
+          )}
         </div>
         <button
           className="ml-auto lg:hidden flex items-center"
@@ -85,4 +98,4 @@ const Header: React.FC = () => {
   );
 };
 
-export default Header;
+export default NavBar;
