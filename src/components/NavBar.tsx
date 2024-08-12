@@ -9,7 +9,7 @@ import { useAuth } from "./authContext";
 const NavBar: React.FC = () => {
   const location = useLocation();
   const [openNavigation, setOpenNavigation] = useState(false);
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
 
   const toggleNavigation = () => {
     if (openNavigation) {
@@ -65,12 +65,17 @@ const NavBar: React.FC = () => {
         </nav>
         <div className="hidden lg:flex items-center">
           {isAuthenticated ? (
-            <a href="#profile" className="text-gray-700 hover:text-blue-600">
+            <a
+              href="#profile"
+              className="text-gray-700 hover:text-blue-600 
+            flex justify-between flex-row gap-2 items-center"
+            >
               <img
                 src={profile}
                 alt="Profile Icon"
                 className="w-8 h-8 rounded-full"
               />
+              <h3>{user?.username}</h3>
             </a>
           ) : (
             <>
