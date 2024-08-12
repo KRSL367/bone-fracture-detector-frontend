@@ -3,12 +3,13 @@ import { useLocation } from "react-router-dom";
 import { disablePageScroll, enablePageScroll } from "scroll-lock";
 import { navigation } from "../constants";
 import MenuSvg from "../assets/svg/MenuSvg";
-import profile from '../assets/profile.webp';
+import profile from "../assets/profile.webp";
+import { useAuth } from "./authContext";
 
 const NavBar: React.FC = () => {
   const location = useLocation();
   const [openNavigation, setOpenNavigation] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(true); // Set to true for testing
+  const { isAuthenticated } = useAuth();
 
   const toggleNavigation = () => {
     if (openNavigation) {
@@ -48,7 +49,7 @@ const NavBar: React.FC = () => {
                 key={item.id}
                 href={item.url}
                 onClick={handleClick}
-                className={`block relative font-sans text-lg uppercase text-gray-700 transition-colors
+                className={`block relative font-sans text-lg text-gray-700 transition-colors
                     hover:text-blue-600 ${
                       item.onlyMobile ? "lg:hidden" : ""
                     } px-4 py-4 lg:py-0 lg:px-6 ${
@@ -63,7 +64,7 @@ const NavBar: React.FC = () => {
           </div>
         </nav>
         <div className="hidden lg:flex items-center">
-          {isLoggedIn ? (
+          {isAuthenticated ? (
             <a href="#profile" className="text-gray-700 hover:text-blue-600">
               <img
                 src={profile}
@@ -78,12 +79,6 @@ const NavBar: React.FC = () => {
                 className="mr-6 text-gray-700 hover:text-blue-600 transition-colors"
               >
                 New account
-              </a>
-              <a
-                href="/login"
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow-lg hover:bg-blue-700 transition-colors"
-              >
-                Sign in
               </a>
             </>
           )}
