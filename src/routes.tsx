@@ -10,6 +10,7 @@ import ResendEmailPage from "./pages/registration/pages/ResendEmailPage";
 import ActivationPage from "./pages/registration/pages/ActivationPage";
 import ResetPasswordEmailPage from "./pages/registration/pages/ResetPasswordEmailPage";
 import ResetPasswordPage from "./pages/registration/pages/ResetPasswordPage";
+import AdminPanelPage from "./pages/adminPanel/pages/AdminPanelPage";
 
 
 const router = createBrowserRouter([
@@ -24,6 +25,8 @@ const router = createBrowserRouter([
       { path: "/", element: <HomePage /> },
       { path: "register", element: <RegisterPage /> },
       { path: "resend-email", element: <ResendEmailPage /> },
+      { path: "admin-panel", element: <AdminPanelPage /> },
+
 
 
 

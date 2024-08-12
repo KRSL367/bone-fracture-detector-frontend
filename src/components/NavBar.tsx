@@ -3,14 +3,11 @@ import { useLocation } from "react-router-dom";
 import { disablePageScroll, enablePageScroll } from "scroll-lock";
 import { navigation } from "../constants";
 import MenuSvg from "../assets/svg/MenuSvg";
-import profile from "../assets/profile.webp";
 import { useAuth } from "./authContext";
+import ProfileDrawer from "./AppDrawrer";
 
-interface NavbarProps {
-  toggleDrawer: () => void;
-}
+const NavBar: React.FC = () => {
 
-const NavBar: React.FC<NavbarProps> = ({ toggleDrawer }) => {
   const location = useLocation();
   const [openNavigation, setOpenNavigation] = useState(false);
   const { isAuthenticated, user } = useAuth();
@@ -30,6 +27,10 @@ const NavBar: React.FC<NavbarProps> = ({ toggleDrawer }) => {
     enablePageScroll();
     setOpenNavigation(false);
   };
+
+  const toggleDrawer= () => {
+
+  }
 
   return (
     <div
@@ -69,18 +70,10 @@ const NavBar: React.FC<NavbarProps> = ({ toggleDrawer }) => {
         </nav>
         <div className="hidden lg:flex items-center">
           {isAuthenticated ? (
-            <button
-              onClick={toggleDrawer}
-              className="text-gray-700 hover:text-blue-600 
-            flex justify-between flex-row gap-2 items-center"
-            >
-              <img
-                src={profile}
-                alt="Profile Icon"
-                className="w-8 h-8 rounded-full"
-              />
-              <h3>{user?.username}</h3>
-            </button>
+            <ProfileDrawer
+            src="https://via.placeholder.com/50"
+            alt="Profile Image"
+          />
           ) : (
             <>
               <a

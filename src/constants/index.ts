@@ -13,7 +13,7 @@ export const navigation = [
     {
       id: "2",
       title: "Admin Panel",
-      url: "/#admin",
+      url: "/admin-panel",
     },
     {
       id: "3",
