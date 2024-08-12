@@ -62,8 +62,8 @@ const NavBar: React.FC = () => {
             {navigation.map((item) => (
               <div
                 key={item.id}
-                onMouseEnter={item.id === "2" ? handleMouseEnter : undefined}
-                onMouseLeave={item.id === "2" ? handleMouseLeave : undefined}
+                onMouseEnter={item.subMenu ? handleMouseEnter : undefined}
+                onMouseLeave={item.subMenu ? handleMouseLeave : undefined}
                 className="relative"
               >
                 <a
@@ -80,18 +80,21 @@ const NavBar: React.FC = () => {
                 >
                   {item.title}
                 </a>
-                {item.id === "2" && submenuOpen && (
+                {item.subMenu && submenuOpen && (
                   <div
                     className="absolute left-0 top-full mt-2 bg-white border shadow-xl py-2 w-48 rounded-lg"
                     onMouseEnter={handleMouseEnter}
-                    onMouseLeave={handleMouseLeave} 
+                    onMouseLeave={handleMouseLeave}
                   >
-                    <a
-                      href="/admin-panel/hospital"
-                      className="block px-4 py-2 text-gray-700 hover:text-blue-600 transition-colors"
-                    >
-                      Hospital
-                    </a>
+                    {item.subMenu.map((subItem) => (
+                      <a
+                        key={subItem.id}
+                        href={subItem.url}
+                        className="block px-4 py-2 text-gray-700 hover:text-blue-600 transition-colors"
+                      >
+                        {subItem.title}
+                      </a>
+                    ))}
                   </div>
                 )}
               </div>
