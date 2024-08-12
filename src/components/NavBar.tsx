@@ -1,12 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import { disablePageScroll, enablePageScroll } from "scroll-lock";
 import { navigation } from "../constants";
+import { useAuth } from "./authContext";
+import AppDrawer from "./AppDrawrer";
 import MenuSvg from "../assets/svg/MenuSvg";
 
-const Header: React.FC = () => {
+const NavBar: React.FC = () => {
   const location = useLocation();
   const [openNavigation, setOpenNavigation] = useState(false);
+  const { isAuthenticated } = useAuth();
+  const [submenuOpen, setSubmenuOpen] = useState(false);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const toggleNavigation = () => {
     if (openNavigation) {
@@ -24,14 +29,27 @@ const Header: React.FC = () => {
     setOpenNavigation(false);
   };
 
+  const handleMouseEnter = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    setSubmenuOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    timeoutRef.current = setTimeout(() => {
+      setSubmenuOpen(false);
+    }, 200);
+  };
+
   return (
     <div
-      className={`fixed top-0 left-0 w-full z-50 border-b border-gray-200 bg-white shadow-lg ${
+      className={`w-full border-b border-gray-200 bg-white shadow-lg ${
         openNavigation ? "bg-white" : "bg-opacity-90"
       }`}
     >
       <div className="flex items-center justify-between px-5 py-4 lg:px-10">
-        <a className="block w-[12rem] xl:mr-8" href="#hero">
+        <a className="block w-[12rem] xl:mr-8">
           <img src="path" width={190} height={40} alt="FractureX" />
         </a>
         <nav
@@ -42,37 +60,63 @@ const Header: React.FC = () => {
         >
           <div className="relative z-2 flex flex-col items-center justify-center m-auto lg:flex-row">
             {navigation.map((item) => (
-              <a
+              <div
                 key={item.id}
-                href={item.url}
-                onClick={handleClick}
-                className={`block relative font-sans text-lg uppercase text-gray-700 transition-colors
-                    hover:text-blue-600 ${
-                      item.onlyMobile ? "lg:hidden" : ""
-                    } px-4 py-4 lg:py-0 lg:px-6 ${
-                  item.url === location.hash
-                    ? "font-bold text-blue-600"
-                    : "font-normal"
-                }`}
+                onMouseEnter={item.subMenu ? handleMouseEnter : undefined}
+                onMouseLeave={item.subMenu ? handleMouseLeave : undefined}
+                className="relative"
               >
-                {item.title}
-              </a>
+                <a
+                  href={item.url}
+                  onClick={handleClick}
+                  className={`block relative font-sans text-lg text-gray-700 transition-colors
+                      hover:text-blue-600 ${
+                        item.onlyMobile ? "lg:hidden" : ""
+                      } px-4 py-4 lg:py-0 lg:px-6 ${
+                    item.url === location.hash
+                      ? "font-bold text-blue-600"
+                      : "font-normal"
+                  }`}
+                >
+                  {item.title}
+                </a>
+                {item.subMenu && submenuOpen && (
+                  <div
+                    className="absolute left-0 top-full mt-2 bg-white border shadow-xl py-2 w-48 rounded-lg"
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
+                  >
+                    {item.subMenu.map((subItem) => (
+                      <a
+                        key={subItem.id}
+                        href={subItem.url}
+                        className="block px-4 py-2 text-gray-700 hover:text-blue-600 transition-colors"
+                      >
+                        {subItem.title}
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </div>
             ))}
           </div>
         </nav>
         <div className="hidden lg:flex items-center">
-          <a
-            href="/register"
-            className="mr-6 text-gray-700 hover:text-blue-600 transition-colors"
-          >
-            New account
-          </a>
-          <a
-            href="/register"
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow-lg hover:bg-blue-700 transition-colors"
-          >
-            Sign in
-          </a>
+          {isAuthenticated ? (
+            <AppDrawer
+              src="https://via.placeholder.com/50"
+              alt="Profile Image"
+            />
+          ) : (
+            <>
+              <a
+                href="/register"
+                className="mr-6 text-gray-700 hover:text-blue-600 transition-colors"
+              >
+                New account
+              </a>
+            </>
+          )}
         </div>
         <button
           className="ml-auto lg:hidden flex items-center"
@@ -85,4 +129,4 @@ const Header: React.FC = () => {
   );
 };
 
-export default Header;
+export default NavBar;

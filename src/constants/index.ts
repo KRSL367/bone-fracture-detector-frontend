@@ -7,29 +7,30 @@ export const navigation = [
     },
     {
       id: "1",
-      title: "Features",
-      url: "/#features",
+      title: "Reports",
+      url: "/#reports",
     },
     {
       id: "2",
-      title: "How to Use",
-      url: "/#how-to-use",
+      title: "Admin Panel",
+      url: "/admin-panel",
+      subMenu: [
+        {
+          id: "2-1",
+          title: "Hospital",
+          url: "/admin-panel/hospital",
+        },
+      ],
     },
     {
       id: "3",
-      title: "Roadmap",
-      url: "/#roadmap",
+      title: "How to Use",
+      url: "/#how-to-use",
     },
     {
       id: "4",
       title: "Register",
       url: "/register",
-      onlyMobile: true,
-    },
-    {
-      id: "5",
-      title: "Login",
-      url: "/login",
       onlyMobile: true,
     },
   ];
