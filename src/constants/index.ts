@@ -14,6 +14,13 @@ export const navigation = [
       id: "2",
       title: "Admin Panel",
       url: "/admin-panel",
+      subMenu: [
+        {
+          id: "2-1",
+          title: "Hospital",
+          url: "/admin-panel/hospital",
+        },
+      ],
     },
     {
       id: "3",
