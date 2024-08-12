@@ -6,7 +6,11 @@ import MenuSvg from "../assets/svg/MenuSvg";
 import profile from "../assets/profile.webp";
 import { useAuth } from "./authContext";
 
-const NavBar: React.FC = () => {
+interface NavbarProps {
+  toggleDrawer: () => void;
+}
+
+const NavBar: React.FC<NavbarProps> = ({ toggleDrawer }) => {
   const location = useLocation();
   const [openNavigation, setOpenNavigation] = useState(false);
   const { isAuthenticated, user } = useAuth();
@@ -65,8 +69,8 @@ const NavBar: React.FC = () => {
         </nav>
         <div className="hidden lg:flex items-center">
           {isAuthenticated ? (
-            <a
-              href="#profile"
+            <button
+              onClick={toggleDrawer}
               className="text-gray-700 hover:text-blue-600 
             flex justify-between flex-row gap-2 items-center"
             >
@@ -76,7 +80,7 @@ const NavBar: React.FC = () => {
                 className="w-8 h-8 rounded-full"
               />
               <h3>{user?.username}</h3>
-            </a>
+            </button>
           ) : (
             <>
               <a

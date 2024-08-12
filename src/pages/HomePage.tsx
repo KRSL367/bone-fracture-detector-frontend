@@ -13,7 +13,6 @@ const HomePage = () => {
 
   return (
     <div className="pt-[4.75rem] lg:pt-[5.25rem] overflow-hidden">
-      <NavBar />
       <div className="flex items-center justify-center">
         <button
           type="button"
