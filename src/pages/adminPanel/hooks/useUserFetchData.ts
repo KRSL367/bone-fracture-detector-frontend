@@ -10,6 +10,8 @@ export interface User {
         id: string;
         name: string;
     } | null;
+    is_superuser:boolean;
+    is_hospital_admin:boolean;
   }
 
 const useUserFetchData = async (): Promise<ApiResponse<User>> => {
@@ -17,7 +19,7 @@ const useUserFetchData = async (): Promise<ApiResponse<User>> => {
   const response = await useFetchData<User>(url);
 
   return {
-    data: response.data || [],
+    data: response.data,
     status: response.status,
     error: response.error,
   };
