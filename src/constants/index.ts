@@ -20,6 +20,11 @@ export const navigation = [
           title: "Hospital",
           url: "/admin-panel/hospital",
         },
+        {
+          id: "2-2",
+          title: "User",
+          url: "/admin-panel/user",
+        },
       ],
     },
     {
