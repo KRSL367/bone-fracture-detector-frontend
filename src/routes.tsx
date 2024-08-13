@@ -12,7 +12,7 @@ import ResetPasswordEmailPage from "./pages/registration/pages/ResetPasswordEmai
 import ResetPasswordPage from "./pages/registration/pages/ResetPasswordPage";
 import AdminPanelPage from "./pages/adminPanel/pages/AdminPanelPage";
 import HospitalListPage from "./pages/adminPanel/pages/HospitalListPage";
-
+import UserListPage from "./pages/adminPanel/pages/UserListPage";
 
 const router = createBrowserRouter([
   {
@@ -27,20 +27,14 @@ const router = createBrowserRouter([
       { path: "register", element: <RegisterPage /> },
       { path: "resend-email", element: <ResendEmailPage /> },
       { path: "admin-panel", element: <AdminPanelPage /> },
-      { path: "admin-panel/hospital", element: <HospitalListPage /> },
-
-
-
-
-
+      { path: "admin-panel/hospitals", element: <HospitalListPage /> },
+      { path: "admin-panel/users", element: <UserListPage /> },
     ],
   },
   { path: "/login", element: <LoginPage /> },
   { path: "activate/:uid/:token/", element: <ActivationPage /> },
   { path: "reset-password-email", element: <ResetPasswordEmailPage /> },
   { path: "password-reset/:uid/:token/", element: <ResetPasswordPage /> },
-
-
 ]);
 
 const AppRouter: React.FC = () => (
