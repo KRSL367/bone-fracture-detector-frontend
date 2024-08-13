@@ -1,4 +1,3 @@
-// components/UserCard.tsx
 import React from 'react';
 import { User } from '../hooks/useUserFetchData';
 
