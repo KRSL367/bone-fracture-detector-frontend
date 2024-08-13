@@ -18,12 +18,12 @@ export const navigation = [
         {
           id: "2-1",
           title: "Hospital",
-          url: "/admin-panel/hospital",
+          url: "/admin-panel/hospitals",
         },
         {
           id: "2-2",
           title: "User",
-          url: "/admin-panel/user",
+          url: "/admin-panel/users",
         },
       ],
     },

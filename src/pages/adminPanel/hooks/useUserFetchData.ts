@@ -6,6 +6,10 @@ export interface User {
     last_name: string;
     username: string;
     email: string;
+    hospital: {
+        id: string;
+        name: string;
+    } | null;
   }
 
 const useUserFetchData = async (): Promise<ApiResponse<User>> => {
@@ -13,7 +17,7 @@ const useUserFetchData = async (): Promise<ApiResponse<User>> => {
   const response = await useFetchData<User>(url);
 
   return {
-    data: response.data,
+    data: response.data || [],
     status: response.status,
     error: response.error,
   };

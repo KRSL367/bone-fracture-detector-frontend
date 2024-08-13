@@ -1,11 +1,6 @@
 // components/HospitalCard.tsx
 import React from 'react';
-
-export interface Hospital {
-  id: string;
-  name: string;
-  phone: string;
-}
+import { Hospital } from '../hooks/useHospitalFetchData';
 
 interface HospitalCardProps {
   hospital: Hospital;
