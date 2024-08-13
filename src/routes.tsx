@@ -13,28 +13,58 @@ import ResetPasswordPage from "./pages/registration/pages/ResetPasswordPage";
 import AdminPanelPage from "./pages/adminPanel/pages/AdminPanelPage";
 import HospitalListPage from "./pages/adminPanel/pages/HospitalListPage";
 import UserListPage from "./pages/adminPanel/pages/UserListPage";
+import NotAuthorizedPage from "./pages/NotAuthorizedPage";
+import ErrorPage from "./pages/ErrorPage";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: (
-      <ProtectedRoute>
-        <Layout />
-      </ProtectedRoute>
-    ),
-    children: [
-      { path: "/", element: <HomePage /> },
-      { path: "register", element: <RegisterPage /> },
-      { path: "resend-email", element: <ResendEmailPage /> },
-      { path: "admin-panel", element: <AdminPanelPage /> },
-      { path: "admin-panel/hospitals", element: <HospitalListPage /> },
-      { path: "admin-panel/users", element: <UserListPage /> },
-    ],
-  },
+const publicRoutes = [
   { path: "/login", element: <LoginPage /> },
   { path: "activate/:uid/:token/", element: <ActivationPage /> },
   { path: "reset-password-email", element: <ResetPasswordEmailPage /> },
   { path: "password-reset/:uid/:token/", element: <ResetPasswordPage /> },
+  { path: '/not-authorized', element: <NotAuthorizedPage /> },
+];
+
+const authenticatedRoutes = [
+  { path: "/", element: <HomePage /> },
+
+];
+
+const authorizedRoutes = [
+  { path: "register", element: <RegisterPage /> },
+  { path: "resend-email", element: <ResendEmailPage /> },
+  { path: "admin-panel/hospitals", element: <HospitalListPage /> },
+  { path: "admin-panel/users", element: <UserListPage /> },
+];
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Layout />,
+    errorElement: <ErrorPage />,
+    children: [
+      ...publicRoutes.map(route => ({
+        path: route.path,
+        element: route.element
+      })),
+      ...authenticatedRoutes.map(route => ({
+        path: route.path,
+        element: (
+          <ProtectedRoute requireAuth>
+            {route.element}
+          </ProtectedRoute>
+        )
+      })),
+      ...authorizedRoutes.map(route => ({
+        path: route.path,
+        element: (
+          <ProtectedRoute requireAuth requireAdmin>
+            {route.element}
+          </ProtectedRoute>
+        )
+      })),
+      { path: '*', element: <ErrorPage /> }
+    ]
+  }
 ]);
 
 const AppRouter: React.FC = () => (
