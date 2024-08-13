@@ -1,16 +1,16 @@
 import { ApiResponse, useFetchData } from "../../../hooks/useFetchData";
 
 export interface User {
-    id: string;
+    id?: string;
     first_name: string;
     last_name: string;
     username: string;
     email: string;
-    hospital: {
+    hospital?: {
         id: string;
         name: string;
     } | null;
-    is_superuser:boolean;
+    is_superuser?:boolean;
     is_hospital_admin:boolean;
   }
 
