@@ -1,7 +1,7 @@
 import { ApiResponse, useFetchData } from "../../../hooks/useFetchData";
 
 export interface Hospital {
-    id: string;
+    id?: string;
     name: string;
     phone: string;
   }
