@@ -6,12 +6,12 @@ import { hospitalSchema } from "../validations/HospitalSchema";
 import { useCreateHospital } from "../hooks/useCreateHospital";
 import { Hospital } from "../hooks/useHospitalFetchData";
 
-interface CreateHospitalModalProps {
+interface HospitalCreateModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-const CreateHospitalModal: React.FC<CreateHospitalModalProps> = ({
+const HospitalCreateModal: React.FC<HospitalCreateModalProps> = ({
   isOpen,
   onClose,
 }) => {
@@ -169,4 +169,4 @@ const CreateHospitalModal: React.FC<CreateHospitalModalProps> = ({
   );
 };
 
-export default CreateHospitalModal;
+export default HospitalCreateModal;
