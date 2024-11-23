@@ -10,7 +10,7 @@ export interface User {
         id: string;
         name: string;
     } | null;
-    is_superuser?:boolean;
+    is_superuser?:boolean;  
     is_hospital_admin:boolean;
   }
 

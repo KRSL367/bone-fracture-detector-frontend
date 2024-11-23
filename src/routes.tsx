@@ -18,6 +18,7 @@ import ErrorPage from "./pages/ErrorPage";
 
 const publicRoutes = [
   { path: "/login", element: <LoginPage /> },
+  { path: "register", element: <RegisterPage /> },
   { path: "activate/:uid/:token/", element: <ActivationPage /> },
   { path: "reset-password-email", element: <ResetPasswordEmailPage /> },
   { path: "password-reset/:uid/:token/", element: <ResetPasswordPage /> },
@@ -30,7 +31,6 @@ const authenticatedRoutes = [
 ];
 
 const authorizedRoutes = [
-  { path: "register", element: <RegisterPage /> },
   { path: "resend-email", element: <ResendEmailPage /> },
   { path: "admin-panel/hospitals", element: <HospitalListPage /> },
   { path: "admin-panel/users", element: <UserListPage /> },

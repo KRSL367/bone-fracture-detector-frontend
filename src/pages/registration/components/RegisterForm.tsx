@@ -1,21 +1,41 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema, RegisterSchema } from "../validation/registerSchema";
 import CustomInput from "../../../components/CustomInput";
 import Label from "../../../components/Label";
 import { useRegisterUser } from "../hooks/useRegisterUser";
+import { Hospital, useHospitalFetchData } from "../../adminPanel/hooks/useHospitalFetchData";
+
 
 const RegisterForm: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const { register, handleSubmit, formState: { errors } } = useForm<RegisterSchema>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<RegisterSchema>({
     resolver: zodResolver(registerSchema),
   });
 
   const { registerUser, data, isLoading, error } = useRegisterUser();
+  const [hospitals, setHospitals] = useState<Hospital[]>([]);
+
+  useEffect(() => {
+    const fetchHospitals = async () => {
+      const response = await useHospitalFetchData();
+      if (response.error) {
+        console.log(response.error);
+      } else {
+        setHospitals(response.data || []);
+      }
+    };
+
+    fetchHospitals();
+  }, []);
 
   const onFormSubmit = async (formData: RegisterSchema) => {
-    await registerUser({...formData});
+    await registerUser({ ...formData });
   };
 
   return (
@@ -62,11 +82,19 @@ const RegisterForm: React.FC = () => {
 
       <div>
         <Label htmlFor="hospital_name">Hospital name</Label>
-        <CustomInput
+        <select
           id="hospital_name"
-          placeholder="Hospital name"
-          register={register("hospital_name")}
-        />
+          {...register("hospital_name")}
+          className="w-full px-3 py-2 border rounded-md"
+        >
+          
+          {hospitals.length === 0 && <option>No hospitals available</option>}
+          {hospitals.map((hospital) => (
+              <option key={hospital.id} value={hospital.name}>
+                {hospital.name}
+              </option>
+            ))}
+        </select>
         {errors.hospital_name && <p className="text-red-600">{errors.hospital_name?.message}</p>}
       </div>
 
