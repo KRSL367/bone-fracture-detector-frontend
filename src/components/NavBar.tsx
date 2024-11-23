@@ -42,6 +42,8 @@ const NavBar: React.FC = () => {
     }, 200);
   };
 
+  
+
   return (
     <div
       className={`w-full border-b border-gray-200 bg-white shadow-lg ${
@@ -65,7 +67,7 @@ const NavBar: React.FC = () => {
                 onMouseEnter={item.subMenu ? handleMouseEnter : undefined}
                 onMouseLeave={item.subMenu ? handleMouseLeave : undefined}
                 className="relative"
-              >
+              >                
                 <a
                   href={item.url}
                   onClick={handleClick}
