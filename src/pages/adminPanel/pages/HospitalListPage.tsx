@@ -1,10 +1,11 @@
-// pages/HospitalPage.tsx
 import React, { useEffect, useState } from "react";
 import { useHospitalFetchData, Hospital } from "../hooks/useHospitalFetchData";
 import HospitalCard from "../components/HospitalCard";
 import HospitalCreateModal from "../components/HospitalCreateModal";
+import { useAuth } from "../../../components/authContext";
 
 const HospitalPage: React.FC = () => {
+  const { user } = useAuth(); 
   const [hospitals, setHospitals] = useState<Hospital[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isCreateModalOpen, setCreateModalOpen] = useState(false);
@@ -34,13 +35,15 @@ const HospitalPage: React.FC = () => {
     <div className="container mx-auto p-4">
       <div className="flex flex-row justify-between items-center">
         <h1 className="text-2xl font-bold mb-6">Hospitals</h1>
-        <button
-          type="button"
-          onClick={handleOpenCreateModal}
-          className="text-black bg-[#FFFFFF] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 me-2 mb-2"
-        >
-          Create Hospital
-        </button>
+        {user?.is_superuser && (
+          <button
+            type="button"
+            onClick={handleOpenCreateModal}
+            className="text-black bg-[#FFFFFF] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 me-2 mb-2"
+          >
+            Create Hospital
+          </button>
+        )}
       </div>
       {error && <p className="text-red-500">{error}</p>}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
