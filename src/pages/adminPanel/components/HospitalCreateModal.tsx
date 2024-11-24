@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { hospitalSchema } from "../validations/HospitalSchema";
 import { useCreateHospital } from "../hooks/useCreateHospital";
 import { Hospital } from "../hooks/useHospitalFetchData";
@@ -42,9 +41,7 @@ const HospitalCreateModal: React.FC<HospitalCreateModalProps> = ({
       onClose();
       alert("Hospital Created"); // Replace with a toast or notification library if needed
     } catch (error) {
-      if (error instanceof z.ZodError) {
-        // Handle Zod validation errors if needed
-      } else {
+      {
         console.error("Error:", error);
         alert("An error occurred. Unable to create hospital."); // Replace with a toast or notification library if needed
       }

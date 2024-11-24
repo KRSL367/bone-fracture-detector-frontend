@@ -14,10 +14,10 @@ import HospitalListPage from "./pages/adminPanel/pages/HospitalListPage";
 import UserListPage from "./pages/adminPanel/pages/UserListPage";
 import NotAuthorizedPage from "./pages/NotAuthorizedPage";
 import ErrorPage from "./pages/ErrorPage";
+import PatientPage from "./pages/Patient/pages/PatientsListPage";
 
 const publicRoutes = [
   { path: "/login", element: <LoginPage /> },
-  { path: "register", element: <RegisterPage /> },
   { path: "activate/:uid/:token/", element: <ActivationPage /> },
   { path: "reset-password-email", element: <ResetPasswordEmailPage /> },
   { path: "password-reset/:uid/:token/", element: <ResetPasswordPage /> },
@@ -26,13 +26,16 @@ const publicRoutes = [
 
 const authenticatedRoutes = [
   { path: "/", element: <HomePage /> },
+  { path: "reports", element: <PatientPage /> },
 
 ];
 
 const authorizedRoutes = [
   { path: "resend-email", element: <ResendEmailPage /> },
-  { path: "admin-panel/hospitals", element: <HospitalListPage /> },
-  { path: "admin-panel/users", element: <UserListPage /> },
+  { path: "hospitals", element: <HospitalListPage /> },
+  { path: "users", element: <UserListPage /> },
+  { path: "register", element: <RegisterPage /> },
+
 ];
 
 const router = createBrowserRouter([

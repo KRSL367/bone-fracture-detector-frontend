@@ -1,20 +1,23 @@
 import { ApiResponse, useFetchData } from "../../../hooks/useFetchData";
 
 export interface Hospital {
-    id?: string;
-    name: string;
-    phone: string;
-  }
+  id?: string;
+  name: string;
+  phone: string;
+}
 
-const useHospitalFetchData = async (): Promise<ApiResponse<Hospital>> => {
+const useHospitalFetchData = async (
+  page: number = 1, // Default to the first page
+  additionalParams: Record<string, any> = {} // Allow custom query parameters
+): Promise<ApiResponse<Hospital>> => {
   const url = `/laboratory/hospitals/`;
-  const response = await useFetchData<Hospital>(url);
+  
+  // Merge pagination and additional query parameters
+  const params = { page, ...additionalParams };
 
-  return {
-    data: response.data,
-    status: response.status,
-    error: response.error,
-  };
+  const response = await useFetchData<Hospital>(url, params);
+
+  return response;
 };
 
 export { useHospitalFetchData };

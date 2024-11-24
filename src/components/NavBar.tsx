@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { disablePageScroll, enablePageScroll } from "scroll-lock";
 import { navigation as staticNavigation } from "../constants";
 import { useAuth } from "./authContext";
@@ -39,12 +39,6 @@ const NavBar: React.FC = () => {
     }
   };
 
-  const handleClick = () => {
-    if (!openNavigation) return;
-    enablePageScroll();
-    setOpenNavigation(false);
-  };
-
   const handleMouseEnter = () => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
@@ -77,47 +71,44 @@ const NavBar: React.FC = () => {
           <div className="relative z-2 flex flex-col items-center justify-center m-auto lg:flex-row">
             {navigation.map((item) => (
               <div
-              key={item.id}
-              className="relative"
-              onMouseEnter={item.subMenu ? handleMouseEnter : undefined}
-              onMouseLeave={item.subMenu ? handleMouseLeave : undefined}
-            >
-              <a
-                href="#"
-                onClick={(e) => {
-                  if (item.subMenu) {
-                    e.preventDefault(); // Prevent navigation
-                    setSubmenuOpen((prev) => !prev); // Toggle submenu visibility
-                  }
-                }}
-                className={`block relative font-sans text-lg text-gray-700 transition-colors
-                    hover:text-blue-600 ${
-                      item.onlyMobile ? "lg:hidden" : ""
-                    } px-4 py-4 lg:py-0 lg:px-6 ${
-                  item.url === location.hash
-                    ? "font-bold text-blue-600"
-                    : "font-normal"
-                }`}
+                key={item.id}
+                className="relative"
+                onMouseEnter={item.subMenu ? handleMouseEnter : undefined}
+                onMouseLeave={item.subMenu ? handleMouseLeave : undefined}
               >
-                {item.title}
-              </a>
-              {item.subMenu && submenuOpen && (
-                <div
-                  className="absolute left-0 top-full mt-2 bg-white border shadow-xl py-2 w-48 rounded-lg transition-all duration-300 ease-in-out"
+                <Link
+                  to={item.url}
+                  onClick={(e) => {
+                    if (item.subMenu) {
+                      e.preventDefault(); // Prevent navigation if there's a submenu
+                      setSubmenuOpen((prev) => !prev); // Toggle submenu visibility
+                    }
+                  }}
+                  className={`block relative font-sans text-lg text-gray-700 transition-colors
+                      hover:text-blue-600 ${
+                        item.onlyMobile ? "lg:hidden" : ""
+                      } px-4 py-4 lg:py-0 lg:px-6 ${
+                    item.url === location.pathname
+                      ? "font-bold text-blue-600"
+                      : "font-normal"
+                  }`}
                 >
-                  {item.subMenu.map((subItem) => (
-                    <a
-                      key={subItem.id}
-                      href={subItem.url}
-                      className="block px-4 py-2 text-gray-700 hover:text-blue-600 transition-colors"
-                    >
-                      {subItem.title}
-                    </a>
-                  ))}
-                </div>
-              )}
-            </div>
-            
+                  {item.title}
+                </Link>
+                {item.subMenu && submenuOpen && (
+                  <div className="absolute left-0 top-full mt-2 bg-white border shadow-xl py-2 w-48 rounded-lg transition-all duration-300 ease-in-out">
+                    {item.subMenu.map((subItem) => (
+                      <Link
+                        key={subItem.id}
+                        to={subItem.url}
+                        className="block px-4 py-2 text-gray-700 hover:text-blue-600 transition-colors"
+                      >
+                        {subItem.title}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
             ))}
           </div>
         </nav>

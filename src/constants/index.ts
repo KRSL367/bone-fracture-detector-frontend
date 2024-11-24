@@ -8,7 +8,7 @@ export const navigation = [
     {
       id: "1",
       title: "Reports",
-      url: "/#reports",
+      url: "/reports",
     },
     {
       id: "2",
@@ -18,12 +18,12 @@ export const navigation = [
         {
           id: "2-1",
           title: "Hospital",
-          url: "/admin-panel/hospitals",
+          url: "/hospitals",
         },
         {
           id: "2-2",
           title: "User",
-          url: "/admin-panel/users",
+          url: "/users",
         },
       ],
     },
