@@ -10,7 +10,6 @@ import ResendEmailPage from "./pages/registration/pages/ResendEmailPage";
 import ActivationPage from "./pages/registration/pages/ActivationPage";
 import ResetPasswordEmailPage from "./pages/registration/pages/ResetPasswordEmailPage";
 import ResetPasswordPage from "./pages/registration/pages/ResetPasswordPage";
-import AdminPanelPage from "./pages/adminPanel/pages/AdminPanelPage";
 import HospitalListPage from "./pages/adminPanel/pages/HospitalListPage";
 import UserListPage from "./pages/adminPanel/pages/UserListPage";
 import NotAuthorizedPage from "./pages/NotAuthorizedPage";

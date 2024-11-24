@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import { disablePageScroll, enablePageScroll } from "scroll-lock";
-import { navigation } from "../constants";
+import { navigation as staticNavigation } from "../constants";
 import { useAuth } from "./authContext";
 import AppDrawer from "./AppDrawrer";
 import MenuSvg from "../assets/svg/MenuSvg";
@@ -9,9 +9,22 @@ import MenuSvg from "../assets/svg/MenuSvg";
 const NavBar: React.FC = () => {
   const location = useLocation();
   const [openNavigation, setOpenNavigation] = useState(false);
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
   const [submenuOpen, setSubmenuOpen] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Dynamically filter navigation items based on roles
+  const navigation = staticNavigation.filter((item) => {
+        // Hide "Admin Panel" for users who are not superadmin or hospital admin
+    if (item.title === "Admin Panel" && !(user?.is_superuser || user?.is_hospital_admin)) {
+      return false;
+    }
+        // Hide "Reports" for superadmin
+    if (item.title === "Reports" && user?.is_superuser){
+      return false;
+    }
+    return true;
+  });
 
   const toggleNavigation = () => {
     if (openNavigation) {
@@ -42,8 +55,6 @@ const NavBar: React.FC = () => {
     }, 200);
   };
 
-  
-
   return (
     <div
       className={`w-full border-b border-gray-200 bg-white shadow-lg ${
@@ -67,7 +78,7 @@ const NavBar: React.FC = () => {
                 onMouseEnter={item.subMenu ? handleMouseEnter : undefined}
                 onMouseLeave={item.subMenu ? handleMouseLeave : undefined}
                 className="relative"
-              >                
+              >
                 <a
                   href={item.url}
                   onClick={handleClick}

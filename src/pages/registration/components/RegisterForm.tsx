@@ -5,8 +5,10 @@ import { registerSchema, RegisterSchema } from "../validation/registerSchema";
 import CustomInput from "../../../components/CustomInput";
 import Label from "../../../components/Label";
 import { useRegisterUser } from "../hooks/useRegisterUser";
-import { Hospital, useHospitalFetchData } from "../../adminPanel/hooks/useHospitalFetchData";
-
+import {
+  Hospital,
+  useHospitalFetchData,
+} from "../../adminPanel/hooks/useHospitalFetchData";
 
 const RegisterForm: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -47,7 +49,9 @@ const RegisterForm: React.FC = () => {
           placeholder="Jesse"
           register={register("first_name")}
         />
-        {errors.first_name && <p className="text-red-600">{errors.first_name.message}</p>}
+        {errors.first_name && (
+          <p className="text-red-600">{errors.first_name.message}</p>
+        )}
       </div>
 
       <div>
@@ -57,7 +61,9 @@ const RegisterForm: React.FC = () => {
           placeholder="Pinkman"
           register={register("last_name")}
         />
-        {errors.last_name && <p className="text-red-600">{errors.last_name.message}</p>}
+        {errors.last_name && (
+          <p className="text-red-600">{errors.last_name.message}</p>
+        )}
       </div>
 
       <div>
@@ -67,7 +73,9 @@ const RegisterForm: React.FC = () => {
           placeholder="Jessepinkman123"
           register={register("username")}
         />
-        {errors.username && <p className="text-red-600">{errors.username.message}</p>}
+        {errors.username && (
+          <p className="text-red-600">{errors.username.message}</p>
+        )}
       </div>
 
       <div>
@@ -86,16 +94,21 @@ const RegisterForm: React.FC = () => {
           id="hospital_name"
           {...register("hospital_name")}
           className="w-full px-3 py-2 border rounded-md"
+          defaultValue="" // Ensure the placeholder is selected by default
         >
-          
+          <option value="" disabled>
+            Select a hospital
+          </option>
           {hospitals.length === 0 && <option>No hospitals available</option>}
           {hospitals.map((hospital) => (
-              <option key={hospital.id} value={hospital.name}>
-                {hospital.name}
-              </option>
-            ))}
+            <option key={hospital.id} value={hospital.name}>
+              {hospital.name}
+            </option>
+          ))}
         </select>
-        {errors.hospital_name && <p className="text-red-600">{errors.hospital_name?.message}</p>}
+        {errors.hospital_name && (
+          <p className="text-red-600">{errors.hospital_name?.message}</p>
+        )}
       </div>
 
       <div>
@@ -106,7 +119,9 @@ const RegisterForm: React.FC = () => {
           placeholder="Enter your password"
           register={register("password")}
         />
-        {errors.password && <p className="text-red-600">{errors.password.message}</p>}
+        {errors.password && (
+          <p className="text-red-600">{errors.password.message}</p>
+        )}
       </div>
 
       <div>
@@ -117,7 +132,9 @@ const RegisterForm: React.FC = () => {
           placeholder="Confirm your password"
           register={register("confirmPassword")}
         />
-        {errors.confirmPassword && <p className="text-red-600">{errors.confirmPassword.message}</p>}
+        {errors.confirmPassword && (
+          <p className="text-red-600">{errors.confirmPassword.message}</p>
+        )}
       </div>
 
       <div className="flex items-center">
