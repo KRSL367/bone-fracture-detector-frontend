@@ -15,12 +15,15 @@ const NavBar: React.FC = () => {
 
   // Dynamically filter navigation items based on roles
   const navigation = staticNavigation.filter((item) => {
-        // Hide "Admin Panel" for users who are not superadmin or hospital admin
-    if (item.title === "Admin Panel" && !(user?.is_superuser || user?.is_hospital_admin)) {
+    // Hide "Admin Panel" for users who are not superadmin or hospital admin
+    if (
+      item.title === "Admin Panel" &&
+      !(user?.is_superuser || user?.is_hospital_admin)
+    ) {
       return false;
     }
-        // Hide "Reports" for superadmin
-    if (item.title === "Reports" && user?.is_superuser){
+    // Hide "Reports" for superadmin
+    if (item.title === "Reports" && user?.is_superuser) {
       return false;
     }
     return true;
@@ -80,12 +83,17 @@ const NavBar: React.FC = () => {
                 className="relative"
               >
                 <a
-                  href={item.url}
-                  onClick={handleClick}
+                  href="#"
+                  onClick={(e) => {
+                    if (item.subMenu) {
+                      e.preventDefault(); // Prevent navigation
+                      setSubmenuOpen((prev) => !prev); // Toggle submenu visibility
+                    }
+                  }}
                   className={`block relative font-sans text-lg text-gray-700 transition-colors
-                      hover:text-blue-600 ${
-                        item.onlyMobile ? "lg:hidden" : ""
-                      } px-4 py-4 lg:py-0 lg:px-6 ${
+                    hover:text-blue-600 ${
+                      item.onlyMobile ? "lg:hidden" : ""
+                    } px-4 py-4 lg:py-0 lg:px-6 ${
                     item.url === location.hash
                       ? "font-bold text-blue-600"
                       : "font-normal"
@@ -93,9 +101,13 @@ const NavBar: React.FC = () => {
                 >
                   {item.title}
                 </a>
-                {item.subMenu && submenuOpen && (
+                {item.subMenu && (
                   <div
-                    className="absolute left-0 top-full mt-2 bg-white border shadow-xl py-2 w-48 rounded-lg"
+                    className={`absolute left-0 top-full mt-2 bg-white border shadow-xl py-2 w-48 rounded-lg transition-all duration-300 ease-in-out ${
+                      submenuOpen
+                        ? "opacity-100 translate-y-0"
+                        : "opacity-0 -translate-y-4"
+                    }`}
                     onMouseEnter={handleMouseEnter}
                     onMouseLeave={handleMouseLeave}
                   >
