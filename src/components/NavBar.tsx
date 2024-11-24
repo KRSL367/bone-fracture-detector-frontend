@@ -77,52 +77,47 @@ const NavBar: React.FC = () => {
           <div className="relative z-2 flex flex-col items-center justify-center m-auto lg:flex-row">
             {navigation.map((item) => (
               <div
-                key={item.id}
-                onMouseEnter={item.subMenu ? handleMouseEnter : undefined}
-                onMouseLeave={item.subMenu ? handleMouseLeave : undefined}
-                className="relative"
-              >
-                <a
-                  href="#"
-                  onClick={(e) => {
-                    if (item.subMenu) {
-                      e.preventDefault(); // Prevent navigation
-                      setSubmenuOpen((prev) => !prev); // Toggle submenu visibility
-                    }
-                  }}
-                  className={`block relative font-sans text-lg text-gray-700 transition-colors
+              key={item.id}
+              className="relative"
+              onMouseEnter={item.subMenu ? handleMouseEnter : undefined}
+              onMouseLeave={item.subMenu ? handleMouseLeave : undefined}
+            >
+              <a
+                href="#"
+                onClick={(e) => {
+                  if (item.subMenu) {
+                    e.preventDefault(); // Prevent navigation
+                    setSubmenuOpen((prev) => !prev); // Toggle submenu visibility
+                  }
+                }}
+                className={`block relative font-sans text-lg text-gray-700 transition-colors
                     hover:text-blue-600 ${
                       item.onlyMobile ? "lg:hidden" : ""
                     } px-4 py-4 lg:py-0 lg:px-6 ${
-                    item.url === location.hash
-                      ? "font-bold text-blue-600"
-                      : "font-normal"
-                  }`}
+                  item.url === location.hash
+                    ? "font-bold text-blue-600"
+                    : "font-normal"
+                }`}
+              >
+                {item.title}
+              </a>
+              {item.subMenu && submenuOpen && (
+                <div
+                  className="absolute left-0 top-full mt-2 bg-white border shadow-xl py-2 w-48 rounded-lg transition-all duration-300 ease-in-out"
                 >
-                  {item.title}
-                </a>
-                {item.subMenu && (
-                  <div
-                    className={`absolute left-0 top-full mt-2 bg-white border shadow-xl py-2 w-48 rounded-lg transition-all duration-300 ease-in-out ${
-                      submenuOpen
-                        ? "opacity-100 translate-y-0"
-                        : "opacity-0 -translate-y-4"
-                    }`}
-                    onMouseEnter={handleMouseEnter}
-                    onMouseLeave={handleMouseLeave}
-                  >
-                    {item.subMenu.map((subItem) => (
-                      <a
-                        key={subItem.id}
-                        href={subItem.url}
-                        className="block px-4 py-2 text-gray-700 hover:text-blue-600 transition-colors"
-                      >
-                        {subItem.title}
-                      </a>
-                    ))}
-                  </div>
-                )}
-              </div>
+                  {item.subMenu.map((subItem) => (
+                    <a
+                      key={subItem.id}
+                      href={subItem.url}
+                      className="block px-4 py-2 text-gray-700 hover:text-blue-600 transition-colors"
+                    >
+                      {subItem.title}
+                    </a>
+                  ))}
+                </div>
+              )}
+            </div>
+            
             ))}
           </div>
         </nav>
