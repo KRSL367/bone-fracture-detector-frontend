@@ -17,7 +17,7 @@ const MedicalDataCard: React.FC<MedicalDataCardProps> = ({
   const navigate = useNavigate();
 
   const handleCardClick = () => {
-    navigate(`/reports/${patient_id}/data/${medical_id}`, { state: { medical_id } });
+    navigate(`/reports/${patient_id}/data/${medical_id}`, { state: { medical_id, patient_id } });
   };
 
   return (
