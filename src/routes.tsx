@@ -15,6 +15,8 @@ import UserListPage from "./pages/adminPanel/pages/UserListPage";
 import NotAuthorizedPage from "./pages/NotAuthorizedPage";
 import ErrorPage from "./pages/ErrorPage";
 import PatientPage from "./pages/Patient/pages/PatientsListPage";
+import PatientDetailPage from "./pages/Patient/pages/PatientDetailPage";
+import MedicalDetailPage from "./pages/Patient/pages/MedicalDetailPage";
 
 const publicRoutes = [
   { path: "/login", element: <LoginPage /> },
@@ -27,6 +29,9 @@ const publicRoutes = [
 const authenticatedRoutes = [
   { path: "/", element: <HomePage /> },
   { path: "reports", element: <PatientPage /> },
+  { path: "reports/:patientId", element: <PatientDetailPage /> },
+  { path: "reports/:patientId/data/:medicalId", element: <MedicalDetailPage /> },
+
 
 ];
 
