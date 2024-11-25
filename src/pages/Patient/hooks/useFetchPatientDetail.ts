@@ -1,30 +1,6 @@
 import { ApiResponse } from "../../../hooks/usePostData";
 import { useFetchSingle } from "../../../hooks/useUserFetchData";
-
-export interface MedicalData {
-  id: number;
-  description: string;
-  uploaded_at: string;
-  images: { id: number; image: string; medical_data: number }[];
-  diagnosis_report: {
-    id: number;
-    medical_data: number;
-    report: string;
-    created_at: string;
-    diagnosis_images: any[];
-  }[];
-}
-
-export interface Patient {
-  id: number;
-  first_name: string;
-  last_name: string;
-  email: string;
-  phone: string;
-  birth_date: string;
-  medical_datas: MedicalData[];
-  hospital: string;
-}
+import { Patient } from "./useFetchPatient";
 
 const useFetchPatientDetail = async (
   patient_id: string
