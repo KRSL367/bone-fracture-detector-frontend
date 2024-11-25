@@ -60,7 +60,8 @@ const MedicalDetailPage = () => {
               <strong>Description:</strong> {medicalData.description}
             </p>
             <p>
-              <strong>Uploaded At:</strong> {new Date(medicalData.uploaded_at).toLocaleString()}
+              <strong>Uploaded At:</strong>{" "}
+              {new Date(medicalData.uploaded_at).toLocaleString()}
             </p>
           </div>
         ) : (
@@ -73,7 +74,9 @@ const MedicalDetailPage = () => {
         <div className="col-span-3">
           {/* Medical Data Section */}
           <section className="border border-gray-300 rounded-md p-4 mb-6">
-            <h2 className="text-lg font-semibold text-gray-700 mb-4">Medical Data</h2>
+            <h2 className="text-lg font-semibold text-gray-700 mb-4">
+              Medical Data
+            </h2>
             {medicalData?.images && medicalData.images.length > 0 ? (
               <div className="flex gap-4 overflow-x-auto">
                 {medicalData.images.map((image) => (
@@ -92,29 +95,40 @@ const MedicalDetailPage = () => {
 
           {/* Result Data Section */}
           <section className="border border-gray-300 rounded-md p-4">
-            <h2 className="text-lg font-semibold text-gray-700 mb-4">Result Data</h2>
-            {medicalData?.diagnosis_report && medicalData.diagnosis_report.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <h2 className="text-lg font-semibold text-gray-700 mb-4">
+              Result Data
+            </h2>
+            {medicalData?.diagnosis_report &&
+            medicalData.diagnosis_report.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {medicalData.diagnosis_report.map((report) => (
                   <div
                     key={report.id}
-                    className="border border-gray-200 rounded-md shadow-md overflow-hidden"
+                    className="border border-gray-200 rounded-md shadow-md overflow-hidden p-4"
                   >
-                    <h3 className="bg-gray-100 text-center text-sm font-medium py-2">
+                    <h3 className="bg-gray-100 text-center text-sm font-medium py-2 mb-4">
                       {report.report}
                     </h3>
-                    <div className="p-4 grid gap-4">
-                      {report.diagnosis_images && report.diagnosis_images.length > 0 ? (
-                        report.diagnosis_images.map((image) => (
+                    <div className="relative w-full h-48">
+                      {report.diagnosis_images &&
+                      report.diagnosis_images.length > 0 ? (
+                        report.diagnosis_images.map((image, index) => (
                           <img
                             key={image.id}
                             src={image.image}
                             alt={`Diagnosis Report ${report.id} Image ${image.id}`}
-                            className="w-full h-48 object-cover rounded-md"
+                            className="absolute top-0 left-0 w-32 h-32 object-cover rounded-md shadow-lg"
+                            style={{
+                              transform: `rotate(${index * 5 - 10}deg)`,
+                              zIndex: index,
+                              marginLeft: `${index * 10}px`,
+                            }}
                           />
                         ))
                       ) : (
-                        <p className="text-sm text-gray-500 text-center">No images available</p>
+                        <p className="text-sm text-gray-500 text-center">
+                          No images available
+                        </p>
                       )}
                     </div>
                   </div>
@@ -132,10 +146,10 @@ const MedicalDetailPage = () => {
           onDrop={handleImageDrop}
           onDragOver={(event) => event.preventDefault()}
         >
-          <h2 className="text-lg font-semibold text-gray-700 mb-4">Upload Images</h2>
-          <div
-            className="border-2 border-dashed border-gray-400 rounded-md p-6 text-center h-48 overflow-auto"
-          >
+          <h2 className="text-lg font-semibold text-gray-700 mb-4">
+            Upload Images
+          </h2>
+          <div className="border-2 border-dashed border-gray-400 rounded-md p-6 text-center h-48 overflow-auto">
             <p className="text-gray-500 mb-4">
               Drag & drop images here or click to upload
             </p>
