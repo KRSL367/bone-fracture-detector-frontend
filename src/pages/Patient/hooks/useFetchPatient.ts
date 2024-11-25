@@ -1,13 +1,43 @@
 import { ApiResponse, useFetchData } from "../../../hooks/useFetchData";
 
+export interface Image {
+  id?: number;
+  image: string;
+  medical_data: number;
+  diagnosis_report: number;
+}
+
+export interface DiagnosisImage {
+  id?: number;
+  image: string;
+  diagnosis_report: number;
+}
+
+export interface DiagnosisReport {
+  id?: number;
+  medical_data: number;
+  report: string;
+  created_at: string;
+  diagnosis_images?: DiagnosisImage[];
+}
+
+export interface MedicalData {
+  id?: number;
+  description: string;
+  uploaded_at: string;
+  images?: Image[];
+  diagnosis_report?: DiagnosisReport[];
+}
+
 export interface Patient {
-  id?: string;
+  id?: number;
   first_name: string;
   last_name: string;
   email: string;
   birth_date: string;
   phone: string;
   hospital?: string;
+  medical_datas?: MedicalData[];
 }
 
 const useFetchPatient = async (

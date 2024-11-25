@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 
 export interface MedicalDataCardProps {
   description: string;
-  uploadedAt: string;
-  medical_id: number;
-  patient_id: number; // To include patient ID in the URL
+  uploadedAt: string ;
+  medical_id: number | undefined;
+  patient_id: number | undefined; // To include patient ID in the URL
 }
 
 const MedicalDataCard: React.FC<MedicalDataCardProps> = ({
@@ -17,7 +17,7 @@ const MedicalDataCard: React.FC<MedicalDataCardProps> = ({
   const navigate = useNavigate();
 
   const handleCardClick = () => {
-    navigate(`/reports/${patient_id}/data/${medical_id}`, { state: { medical_id } });
+    navigate(`/reports/${patient_id}/data/${medical_id}`, { state: { medical_id, patient_id } });
   };
 
   return (

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Patient, useFetchPatientDetail } from "../hooks/useFetchPatientDetail";
 import MedicalDataCard from "../components/MedicalDataCard";
+import { Patient } from "../hooks/useFetchPatient";
+import { useFetchPatientDetail } from "../hooks/useFetchPatientDetail";
 
 const PatientDetailPage: React.FC = () => {
   const { patientId } = useParams<{ patientId: string }>();
@@ -65,8 +66,9 @@ const PatientDetailPage: React.FC = () => {
       {/* Medical Data Section */}
       <div className="bg-white shadow-md rounded-lg p-6 border border-gray-200">
         <h2 className="text-xl font-semibold text-gray-800 mb-4">Medical Data</h2>
-        {patient.medical_datas?.length > 0 ? (
-          <div className="space-y-4">
+
+        {patient.medical_datas ? (
+            <div className="space-y-4">
             {patient.medical_datas.map((medicalData) => (
               <MedicalDataCard
                 key={medicalData.id}
@@ -77,9 +79,9 @@ const PatientDetailPage: React.FC = () => {
               />
             ))}
           </div>
-        ) : (
-          <p className="text-gray-600">No medical data available.</p>
-        )}
+        ):(<text>Error in Medical Data</text>)}
+
+        
       </div>
     </div>
   );

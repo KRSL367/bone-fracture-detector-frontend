@@ -1,10 +1,12 @@
 import { ApiResponse } from "../../../hooks/usePostData";
 import { useFetchSingle } from "../../../hooks/useUserFetchData";
-import { Patient } from "./useFetchPatient";
+import { MedicalData} from "./useFetchPatient";
 
-const useFetchPatientDetail = async (
-  patient_id: string
-): Promise<ApiResponse<Patient>> => {
+const useFetchMedicalDetail = async (
+  patient_id: string,
+  medical_id: string
+
+): Promise<ApiResponse<MedicalData>> => {
   const userString = localStorage.getItem("user");
   let hospital_id = null;
 
@@ -21,10 +23,10 @@ const useFetchPatientDetail = async (
     throw new Error("Hospital ID is not available in the user data");
   }
 
-  const url = `laboratory/hospitals/${hospital_id}/patients/${patient_id}`;
-  const response = await useFetchSingle<Patient>(url);
+  const url = `laboratory/hospitals/${hospital_id}/patients/${patient_id}/medical-datas/${medical_id}`;
+  const response = await useFetchSingle<MedicalData>(url);
   console.log(response.data)
   return response;
 };
 
-export { useFetchPatientDetail };
+export { useFetchMedicalDetail };
