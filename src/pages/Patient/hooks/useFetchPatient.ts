@@ -1,7 +1,7 @@
 import { ApiResponse, useFetchData } from "../../../hooks/useFetchData";
 
 export interface Image {
-  id?: number;
+  id: number;
   image: string;
   medical_data: number;
   diagnosis_report: number;
@@ -18,7 +18,7 @@ export interface DiagnosisReport {
   medical_data: number;
   report: string;
   created_at: string;
-  diagnosis_images?: DiagnosisImage[];
+  diagnosis_images: DiagnosisImage[];
 }
 
 export interface MedicalData {
