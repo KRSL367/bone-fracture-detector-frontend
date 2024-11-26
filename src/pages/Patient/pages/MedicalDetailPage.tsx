@@ -4,7 +4,7 @@ import { MedicalData } from "../hooks/useFetchPatient";
 import { useFetchMedicalDetail } from "../hooks/useFetchMedicalDetail";
 import { usePostMedicalData } from "../hooks/usePostMedicalData";
 import { useDeleteMedicalDataImage } from "../hooks/useDeleteMedicalDataImage";
-
+import { FaEdit, FaCross, FaTimes } from "react-icons/fa";
 const MedicalDetailPage = () => {
   const location = useLocation();
   const { medical_id, patient_id } = location.state || {};
@@ -66,7 +66,9 @@ const MedicalDetailPage = () => {
     if (medical_id && patient_id) {
       useFetchMedicalDetail(patient_id, medical_id)
         .then((response) => setMedicalData(response.data))
-        .catch((error) => console.error("Error refreshing medical data:", error));
+        .catch((error) =>
+          console.error("Error refreshing medical data:", error)
+        );
     }
   };
 
@@ -75,26 +77,34 @@ const MedicalDetailPage = () => {
       console.log("No images to delete.");
       return;
     }
-  
+
     if (!medical_id || !patient_id) {
       console.error("Medical ID or Patient ID is missing.");
       return;
     }
-  
+
     try {
-      const response = await useDeleteMedicalDataImage(patient_id, medical_id, deletedImageIds);
-      
+      const response = await useDeleteMedicalDataImage(
+        patient_id,
+        medical_id,
+        deletedImageIds
+      );
+
       if (response.status === 204) {
-        console.log(`Successfully deleted ${response.data?.deleted || 0} images.`);
-        
+        console.log(
+          `Successfully deleted ${response.data?.deleted || 0} images.`
+        );
+
         // Optionally, reset deletedImageIds and update the UI
         setDeletedImageIds([]);
         setMedicalData((prev) => ({
           ...prev!,
-          images: prev?.images?.filter((image) => !deletedImageIds.includes(image.id)) || [],
+          images:
+            prev?.images?.filter(
+              (image) => !deletedImageIds.includes(image.id)
+            ) || [],
         }));
         setEditMode(false);
-
       } else {
         console.error("Failed to delete images:", response.error);
       }
@@ -102,7 +112,6 @@ const MedicalDetailPage = () => {
       console.error("Error deleting images:", error);
     }
   };
-  
 
   const handleUpload = async () => {
     if (!medicalData || !patient_id || !medical_id) {
@@ -142,21 +151,32 @@ const MedicalDetailPage = () => {
       {/* Heading Section */}
       <section className="mb-6 flex justify-between items-center">
         <h1 className="text-2xl font-bold text-gray-800">Medical Details</h1>
-        <button
-          onClick={toggleEditMode}
-          className="text-gray-500 hover:text-gray-700 focus:outline-none"
-        >
-          {editMode ? "Exit Edit Mode" : "Edit"}
-        </button>
       </section>
 
       <div className="grid grid-cols-5 gap-4">
         {/* Left Section (3/5 width) */}
         <div className="col-span-3">
           <section className="border border-gray-300 rounded-md p-4 mb-6">
-            <h2 className="text-lg font-semibold text-gray-700 mb-4">
-              Medical Data
-            </h2>
+            <div className="flex flex-row justify-between">
+              <h2 className="text-lg font-semibold text-gray-700 mb-4">
+                Medical Data
+              </h2>
+              <button
+                onClick={toggleEditMode}
+                className="text-gray-500 hover:text-gray-700 focus:outline-none"
+              >
+                {editMode ? (
+                  <>
+                    <FaTimes />
+                  </>
+                ) : (
+                  <>
+                    <FaEdit />
+                  </>
+                )}
+              </button>
+            </div>
+
             {medicalData?.images && medicalData.images.length > 0 ? (
               <div className="flex gap-4 overflow-x-auto">
                 {medicalData.images.map((image) => (
@@ -240,7 +260,7 @@ const MedicalDetailPage = () => {
 
         {/* Right Section (2/5 width) */}
         <div
-          className="col-span-2 border border-gray-300 rounded-md p-4 flex flex-col gap-4"
+          className="col-span-2 border border-gray-300 rounded-md p-4 flex flex-col gap-4 h-[480px]"
           onDrop={handleImageDrop}
           onDragOver={(event) => event.preventDefault()}
         >
@@ -277,7 +297,11 @@ const MedicalDetailPage = () => {
                     className="w-full h-24 object-cover rounded-md"
                   />
                   <button
-                    onClick={() => setSelectedImages((prev) => prev.filter((_, i) => i !== index))}
+                    onClick={() =>
+                      setSelectedImages((prev) =>
+                        prev.filter((_, i) => i !== index)
+                      )
+                    }
                     className="absolute top-0 right-0 m-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
                   >
                     ✕
