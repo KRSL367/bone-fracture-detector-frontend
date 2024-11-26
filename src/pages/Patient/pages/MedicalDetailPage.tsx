@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { MedicalData } from "../hooks/useFetchPatient";
 import { useFetchMedicalDetail } from "../hooks/useFetchMedicalDetail";
 import { usePostMedicalData } from "../hooks/usePostMedicalData";
 import { useDeleteMedicalDataImage } from "../hooks/useDeleteMedicalDataImage";
-import { FaEdit, FaCross, FaTimes } from "react-icons/fa";
+import { FaEdit, FaTimes } from "react-icons/fa";
 const MedicalDetailPage = () => {
   const location = useLocation();
   const { medical_id, patient_id } = location.state || {};
@@ -14,6 +14,7 @@ const MedicalDetailPage = () => {
   const [deletedImageIds, setDeletedImageIds] = useState<number[]>([]);
   const [editMode, setEditMode] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchMedicalData = async () => {
@@ -146,12 +147,32 @@ const MedicalDetailPage = () => {
     }
   };
 
+  const handleReportClick = (reportId: number | undefined) => {
+    navigate(`/reports/${patient_id}/data/${medical_id}/diagnosis-result`,
+       { state: { patientId: patient_id, medicalId: medical_id, resultId: reportId } });
+
+  }
+
   return (
     <div className="p-6">
       {/* Heading Section */}
-      <section className="mb-6 flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-gray-800">Medical Details</h1>
-      </section>
+      <section className="mb-6 flex flex-col">
+      <h1 className="text-2xl font-bold text-gray-800">Medical Details</h1>
+        {medicalData ? (
+          <div className="mt-4">
+            <p>
+              <strong>ID:</strong> {medicalData.id}
+            </p>
+            <p>
+              <strong>Description:</strong> {medicalData.description}
+            </p>
+            <p>
+              <strong>Uploaded At:</strong> {new Date(medicalData.uploaded_at).toLocaleString()}
+            </p>
+          </div>
+        ) : (
+          <p>Loading medical details...</p>
+        )}      </section>
 
       <div className="grid grid-cols-5 gap-4">
         {/* Left Section (3/5 width) */}
@@ -227,10 +248,11 @@ const MedicalDetailPage = () => {
             medicalData.diagnosis_report.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {medicalData.diagnosis_report.map((report) => (
-                  <div
+                  <button
                     key={report.id}
                     className="border border-gray-200 rounded-md shadow-md overflow-hidden p-4"
-                  >
+                    onClick={() => handleReportClick(report.id)} // Use an anonymous function
+                    >
                     <h3 className="bg-gray-100 text-center text-sm font-medium py-2 mb-4">
                       {report.report}
                     </h3>
@@ -249,7 +271,7 @@ const MedicalDetailPage = () => {
                         />
                       ))}
                     </div>
-                  </div>
+                  </button>
                 ))}
               </div>
             ) : (
