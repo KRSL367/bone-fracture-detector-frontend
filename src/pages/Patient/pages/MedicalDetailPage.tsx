@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { MedicalData } from "../hooks/useFetchPatient";
 import { useFetchMedicalDetail } from "../hooks/useFetchMedicalDetail";
 import { usePostMedicalData } from "../hooks/usePostMedicalData";
+import { useDeleteMedicalDataImage } from "../hooks/useDeleteMedicalDataImage";
 
 const MedicalDetailPage = () => {
   const location = useLocation();
@@ -69,10 +70,39 @@ const MedicalDetailPage = () => {
     }
   };
 
-  const handleDeleteUpdate = () => {
-    // For now, just print the IDs of deleted images
-    console.log("Deleted Image IDs:", deletedImageIds);
+  const handleDeleteUpdate = async () => {
+    if (deletedImageIds.length === 0) {
+      console.log("No images to delete.");
+      return;
+    }
+  
+    if (!medical_id || !patient_id) {
+      console.error("Medical ID or Patient ID is missing.");
+      return;
+    }
+  
+    try {
+      const response = await useDeleteMedicalDataImage(patient_id, medical_id, deletedImageIds);
+      
+      if (response.status === 204) {
+        console.log(`Successfully deleted ${response.data?.deleted || 0} images.`);
+        
+        // Optionally, reset deletedImageIds and update the UI
+        setDeletedImageIds([]);
+        setMedicalData((prev) => ({
+          ...prev!,
+          images: prev?.images?.filter((image) => !deletedImageIds.includes(image.id)) || [],
+        }));
+        setEditMode(false);
+
+      } else {
+        console.error("Failed to delete images:", response.error);
+      }
+    } catch (error) {
+      console.error("Error deleting images:", error);
+    }
   };
+  
 
   const handleUpload = async () => {
     if (!medicalData || !patient_id || !medical_id) {

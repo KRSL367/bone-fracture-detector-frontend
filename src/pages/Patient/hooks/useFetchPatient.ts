@@ -1,7 +1,7 @@
 import { ApiResponse, useFetchData } from "../../../hooks/useFetchData";
 
 export interface Image {
-  id?: number;
+  id: number;
   image: string;
   medical_data: number;
   diagnosis_report: number;
