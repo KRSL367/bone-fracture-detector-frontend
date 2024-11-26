@@ -7,10 +7,10 @@ const PatientListPage: React.FC = () => {
   const [patients, setPatients] = useState<Patient[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isCreateModalOpen, setCreateModalOpen] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1); // Tracks the current page
-  const [totalCount, setTotalCount] = useState(0); // Total count of hospitals
-  const [hasNextPage, setHasNextPage] = useState(false); // If there's a next page
-  const [hasPreviousPage, setHasPreviousPage] = useState(false); // If there's a previous page
+  const [currentPage, setCurrentPage] = useState(1); 
+  const [totalCount, setTotalCount] = useState(0);
+  const [hasNextPage, setHasNextPage] = useState(false);
+  const [hasPreviousPage, setHasPreviousPage] = useState(false);
 
   const fetchPatient = async (page: number) => {
     const response = await useFetchPatient(page);

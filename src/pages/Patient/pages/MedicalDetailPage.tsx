@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { MedicalData } from "../hooks/useFetchPatient";
 import { useFetchMedicalDetail } from "../hooks/useFetchMedicalDetail";
+import { usePostMedicalData } from "../hooks/usePostMedicalData";
 
 const MedicalDetailPage = () => {
   const location = useLocation();
@@ -9,6 +10,9 @@ const MedicalDetailPage = () => {
 
   const [medicalData, setMedicalData] = useState<MedicalData | null>(null);
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
+  const [deletedImageIds, setDeletedImageIds] = useState<number[]>([]);
+  const [editMode, setEditMode] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
 
   useEffect(() => {
     const fetchMedicalData = async () => {
@@ -27,6 +31,13 @@ const MedicalDetailPage = () => {
     fetchMedicalData();
   }, [medical_id, patient_id]);
 
+  const toggleEditMode = () => {
+    setEditMode((prev) => !prev);
+    if (!editMode) {
+      setDeletedImageIds([]); // Clear deleted images when exiting edit mode
+    }
+  };
+
   const handleImageDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     const files = Array.from(event.dataTransfer.files);
@@ -38,41 +49,80 @@ const MedicalDetailPage = () => {
     setSelectedImages((prev) => [...prev, ...files]);
   };
 
-  const handleImageDelete = (index: number) => {
-    setSelectedImages((prev) => prev.filter((_, i) => i !== index));
+  const handleImageDelete = (imageId: number) => {
+    setDeletedImageIds((prev) => [...prev, imageId]);
+    setMedicalData((prev) => ({
+      ...prev!,
+      images: prev?.images?.filter((image) => image.id !== imageId) || [],
+    }));
   };
 
-  const handleUpload = () => {
-    console.log("Images uploaded:", selectedImages);
+  const handleCancel = () => {
+    // Exit edit mode and reset state
+    setEditMode(false);
+    setDeletedImageIds([]);
+    // Refresh the data to bring back deleted images
+    if (medical_id && patient_id) {
+      useFetchMedicalDetail(patient_id, medical_id)
+        .then((response) => setMedicalData(response.data))
+        .catch((error) => console.error("Error refreshing medical data:", error));
+    }
+  };
+
+  const handleDeleteUpdate = () => {
+    // For now, just print the IDs of deleted images
+    console.log("Deleted Image IDs:", deletedImageIds);
+  };
+
+  const handleUpload = async () => {
+    if (!medicalData || !patient_id || !medical_id) {
+      console.error("Required data is missing for upload.");
+      return;
+    }
+
+    setIsUploading(true);
+    try {
+      const response = await usePostMedicalData(
+        patient_id,
+        medical_id,
+        selectedImages,
+        medicalData.id!,
+        medicalData.diagnosis_report?.[0]?.id || 0
+      );
+
+      if (response.data) {
+        console.log("Images uploaded successfully:", response.data);
+        setSelectedImages([]); // Clear selected images
+        setMedicalData((prev) => ({
+          ...prev!,
+          images: [...(prev?.images || []), ...(response.data || [])],
+        }));
+      } else {
+        console.error("Failed to upload images:", response.error);
+      }
+    } catch (error) {
+      console.error("Error uploading images:", error);
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   return (
     <div className="p-6">
       {/* Heading Section */}
-      <section className="mb-6">
+      <section className="mb-6 flex justify-between items-center">
         <h1 className="text-2xl font-bold text-gray-800">Medical Details</h1>
-        {medicalData ? (
-          <div className="mt-4">
-            <p>
-              <strong>ID:</strong> {medicalData.id}
-            </p>
-            <p>
-              <strong>Description:</strong> {medicalData.description}
-            </p>
-            <p>
-              <strong>Uploaded At:</strong>{" "}
-              {new Date(medicalData.uploaded_at).toLocaleString()}
-            </p>
-          </div>
-        ) : (
-          <p>Loading medical details...</p>
-        )}
+        <button
+          onClick={toggleEditMode}
+          className="text-gray-500 hover:text-gray-700 focus:outline-none"
+        >
+          {editMode ? "Exit Edit Mode" : "Edit"}
+        </button>
       </section>
 
       <div className="grid grid-cols-5 gap-4">
         {/* Left Section (3/5 width) */}
         <div className="col-span-3">
-          {/* Medical Data Section */}
           <section className="border border-gray-300 rounded-md p-4 mb-6">
             <h2 className="text-lg font-semibold text-gray-700 mb-4">
               Medical Data
@@ -80,27 +130,52 @@ const MedicalDetailPage = () => {
             {medicalData?.images && medicalData.images.length > 0 ? (
               <div className="flex gap-4 overflow-x-auto">
                 {medicalData.images.map((image) => (
-                  <img
-                    key={image.id}
-                    src={image.image}
-                    alt={`Medical Data ${image.id}`}
-                    className="w-48 h-48 object-cover rounded-md shadow-sm"
-                  />
+                  <div key={image.id} className="relative">
+                    <img
+                      src={image.image}
+                      alt={`Medical Data ${image.id}`}
+                      className="w-48 h-48 object-cover rounded-md shadow-sm"
+                    />
+                    {editMode && (
+                      <button
+                        onClick={() => handleImageDelete(image.id!)}
+                        className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+                      >
+                        ✕
+                      </button>
+                    )}
+                  </div>
                 ))}
               </div>
             ) : (
               <p>No images available for this medical data.</p>
             )}
+
+            {editMode && (
+              <div className="mt-4 flex justify-end gap-4">
+                <button
+                  onClick={handleCancel}
+                  className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleDeleteUpdate}
+                  className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+                >
+                  Update
+                </button>
+              </div>
+            )}
           </section>
 
-          {/* Result Data Section */}
           <section className="border border-gray-300 rounded-md p-4">
             <h2 className="text-lg font-semibold text-gray-700 mb-4">
               Result Data
             </h2>
             {medicalData?.diagnosis_report &&
             medicalData.diagnosis_report.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {medicalData.diagnosis_report.map((report) => (
                   <div
                     key={report.id}
@@ -110,32 +185,25 @@ const MedicalDetailPage = () => {
                       {report.report}
                     </h3>
                     <div className="relative w-full h-48">
-                      {report.diagnosis_images &&
-                      report.diagnosis_images.length > 0 ? (
-                        report.diagnosis_images.map((image, index) => (
-                          <img
-                            key={image.id}
-                            src={image.image}
-                            alt={`Diagnosis Report ${report.id} Image ${image.id}`}
-                            className="absolute top-0 left-0 w-32 h-32 object-cover rounded-md shadow-lg"
-                            style={{
-                              transform: `rotate(${index * 5 - 10}deg)`,
-                              zIndex: index,
-                              marginLeft: `${index * 10}px`,
-                            }}
-                          />
-                        ))
-                      ) : (
-                        <p className="text-sm text-gray-500 text-center">
-                          No images available
-                        </p>
-                      )}
+                      {report.diagnosis_images.map((image, index) => (
+                        <img
+                          key={image.id}
+                          src={image.image}
+                          alt={`Diagnosis ${report.id}`}
+                          className="absolute top-0 left-0 w-32 h-32 object-cover rounded-md shadow-lg"
+                          style={{
+                            transform: `rotate(${index * 5 - 10}deg)`,
+                            zIndex: index,
+                            marginLeft: `${index * 10}px`,
+                          }}
+                        />
+                      ))}
                     </div>
                   </div>
                 ))}
               </div>
             ) : (
-              <p>No diagnosis reports available for this medical data.</p>
+              <p>No diagnosis reports available.</p>
             )}
           </section>
         </div>
@@ -179,8 +247,8 @@ const MedicalDetailPage = () => {
                     className="w-full h-24 object-cover rounded-md"
                   />
                   <button
-                    onClick={() => handleImageDelete(index)}
-                    className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                    onClick={() => setSelectedImages((prev) => prev.filter((_, i) => i !== index))}
+                    className="absolute top-0 right-0 m-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
                   >
                     ✕
                   </button>
@@ -188,16 +256,13 @@ const MedicalDetailPage = () => {
               ))}
             </div>
           )}
+
           <button
             onClick={handleUpload}
-            disabled={selectedImages.length === 0}
-            className={`mt-4 px-4 py-2 rounded-md ${
-              selectedImages.length > 0
-                ? "bg-green-500 text-white"
-                : "bg-gray-300 text-gray-500 cursor-not-allowed"
-            }`}
+            className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+            disabled={isUploading}
           >
-            Upload Images
+            {isUploading ? "Uploading..." : "Upload"}
           </button>
         </div>
       </div>

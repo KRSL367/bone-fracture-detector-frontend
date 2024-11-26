@@ -18,7 +18,7 @@ export interface DiagnosisReport {
   medical_data: number;
   report: string;
   created_at: string;
-  diagnosis_images?: DiagnosisImage[];
+  diagnosis_images: DiagnosisImage[];
 }
 
 export interface MedicalData {
