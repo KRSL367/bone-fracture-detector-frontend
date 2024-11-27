@@ -24,7 +24,7 @@ export interface DiagnosisReport {
 export interface MedicalData {
   id?: number;
   description: string;
-  uploaded_at: string;
+  uploaded_at?: string;
   images?: Image[];
   diagnosis_report?: DiagnosisReport[];
 }

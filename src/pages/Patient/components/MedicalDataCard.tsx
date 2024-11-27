@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 
 export interface MedicalDataCardProps {
   description: string;
-  uploadedAt: string ;
+  uploadedAt: string | undefined;
   medical_id: number | undefined;
-  patient_id: number | undefined; // To include patient ID in the URL
+  patient_id: number | undefined;
 }
 
 const MedicalDataCard: React.FC<MedicalDataCardProps> = ({
@@ -29,7 +29,9 @@ const MedicalDataCard: React.FC<MedicalDataCardProps> = ({
       <h3 className="text-lg font-semibold text-gray-800">Description:</h3>
       <p className="text-gray-600">{description}</p>
       <p className="text-gray-500 text-sm">
-        Uploaded At: {new Date(uploadedAt).toLocaleString()}
+        Uploaded At: {uploadedAt
+    ? new Date(uploadedAt).toLocaleString()
+    : "N/A"}
       </p>
     </div>
   );
