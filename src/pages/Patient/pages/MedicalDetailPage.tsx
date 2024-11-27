@@ -148,16 +148,20 @@ const MedicalDetailPage = () => {
   };
 
   const handleReportClick = (reportId: number | undefined) => {
-    navigate(`/reports/${patient_id}/data/${medical_id}/diagnosis-result`,
-       { state: { patientId: patient_id, medicalId: medical_id, resultId: reportId } });
-
-  }
+    navigate(`/reports/${patient_id}/data/${medical_id}/diagnosis-result`, {
+      state: {
+        patientId: patient_id,
+        medicalId: medical_id,
+        resultId: reportId,
+      },
+    });
+  };
 
   return (
     <div className="p-6">
       {/* Heading Section */}
       <section className="mb-6 flex flex-col">
-      <h1 className="text-2xl font-bold text-gray-800">Medical Details</h1>
+        <h1 className="text-2xl font-bold text-gray-800">Medical Details</h1>
         {medicalData ? (
           <div className="mt-4">
             <p>
@@ -167,12 +171,14 @@ const MedicalDetailPage = () => {
               <strong>Description:</strong> {medicalData.description}
             </p>
             <p>
-              <strong>Uploaded At:</strong> {new Date(medicalData.uploaded_at).toLocaleString()}
+              <strong>Uploaded At:</strong>{" "}
+              {new Date(medicalData.uploaded_at).toLocaleString()}
             </p>
           </div>
         ) : (
           <p>Loading medical details...</p>
-        )}      </section>
+        )}{" "}
+      </section>
 
       <div className="grid grid-cols-5 gap-4">
         {/* Left Section (3/5 width) */}
@@ -199,9 +205,11 @@ const MedicalDetailPage = () => {
             </div>
 
             {medicalData?.images && medicalData.images.length > 0 ? (
-              <div className="flex gap-4 overflow-x-auto">
+              <div
+                className="flex gap-4 overflow-x-auto"
+              >
                 {medicalData.images.map((image) => (
-                  <div key={image.id} className="relative">
+                  <div key={image.id} className="relative flex-shrink-0">
                     <img
                       src={image.image}
                       alt={`Medical Data ${image.id}`}
@@ -252,7 +260,7 @@ const MedicalDetailPage = () => {
                     key={report.id}
                     className="border border-gray-200 rounded-md shadow-md overflow-hidden p-4"
                     onClick={() => handleReportClick(report.id)} // Use an anonymous function
-                    >
+                  >
                     <h3 className="bg-gray-100 text-center text-sm font-medium py-2 mb-4">
                       {report.report}
                     </h3>
