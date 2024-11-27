@@ -172,7 +172,9 @@ const MedicalDetailPage = () => {
             </p>
             <p>
               <strong>Uploaded At:</strong>{" "}
-              {new Date(medicalData.uploaded_at).toLocaleString()}
+              {medicalData.uploaded_at
+                ? new Date(medicalData.uploaded_at).toLocaleString()
+                : "N/A"}
             </p>
           </div>
         ) : (
@@ -205,9 +207,7 @@ const MedicalDetailPage = () => {
             </div>
 
             {medicalData?.images && medicalData.images.length > 0 ? (
-              <div
-                className="flex gap-4 overflow-x-auto"
-              >
+              <div className="flex gap-4 overflow-x-auto">
                 {medicalData.images.map((image) => (
                   <div key={image.id} className="relative flex-shrink-0">
                     <img
