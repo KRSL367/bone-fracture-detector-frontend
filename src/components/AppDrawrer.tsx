@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "./authContext";
 
 interface AppDrawerProps {
-  src: string;
+  src?: string;
   alt: string;
 }
 

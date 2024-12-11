@@ -5,6 +5,7 @@ import { navigation as staticNavigation } from "../constants";
 import { useAuth } from "./authContext";
 import AppDrawer from "./AppDrawrer";
 import MenuSvg from "../assets/svg/MenuSvg";
+import logo from "../assets/logo.png";
 
 const NavBar: React.FC = () => {
   const location = useLocation();
@@ -60,7 +61,11 @@ const NavBar: React.FC = () => {
     >
       <div className="flex items-center justify-between px-5 py-4 lg:px-10">
         <a className="block w-[12rem] xl:mr-8">
-          <img src="path" width={190} height={40} alt="FractureX" />
+          <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-gray-100">
+
+            <img src={logo} alt="FractureX" />
+          </div>
+
         </a>
         <nav
           className={` ${

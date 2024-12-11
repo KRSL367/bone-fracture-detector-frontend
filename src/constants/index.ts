@@ -30,7 +30,7 @@ export const navigation = [
     {
       id: "3",
       title: "How to Use",
-      url: "/#how-to-use",
+      url: "/how-to-use",
     },
     {
       id: "4",

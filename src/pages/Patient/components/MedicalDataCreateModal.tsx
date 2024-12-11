@@ -63,7 +63,6 @@ const MedicalDataCreateModal: React.FC<MedicalDataCreateModalProps> = ({
     }
   };
   
-  
 
   if (!isVisible) return null;
 

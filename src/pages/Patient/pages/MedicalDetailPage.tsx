@@ -5,6 +5,7 @@ import { useFetchMedicalDetail } from "../hooks/useFetchMedicalDetail";
 import { usePostMedicalData } from "../hooks/usePostMedicalData";
 import { useDeleteMedicalDataImage } from "../hooks/useDeleteMedicalDataImage";
 import { FaEdit, FaTimes } from "react-icons/fa";
+import { useProcessImage } from "../hooks/useProcessImage";
 const MedicalDetailPage = () => {
   const location = useLocation();
   const { medical_id, patient_id } = location.state || {};
@@ -14,6 +15,8 @@ const MedicalDetailPage = () => {
   const [deletedImageIds, setDeletedImageIds] = useState<number[]>([]);
   const [editMode, setEditMode] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -157,6 +160,28 @@ const MedicalDetailPage = () => {
     });
   };
 
+  const handleProcessImage = async () => {
+    setIsProcessing(true);
+    try {
+      const patientId = patient_id; // Get patient_id dynamically
+      const medicalId = medical_id; // Get medical_id dynamically
+
+      // Call the useProcessImage hook
+      const response = await useProcessImage(patientId, medicalId);
+
+      if (response.data) {
+        alert("Image processed successfully!");
+      } else {
+        alert("Error processing image.");
+      }
+    } catch (error) {
+      console.error("Error processing image:", error);
+      alert("Error processing image.");
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
   return (
     <div className="p-6">
       {/* Heading Section */}
@@ -247,6 +272,20 @@ const MedicalDetailPage = () => {
               </div>
             )}
           </section>
+
+          <div className="mt-6 mb-6 flex justify-end">
+            <button
+              onClick={handleProcessImage}
+              className="px-6 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
+              disabled={isProcessing} // Disable the button while processing
+            >
+              {isProcessing ? (
+                <span>Processing...</span> // Simple text, can replace with a spinner
+              ) : (
+                "Process Image"
+              )}
+            </button>
+          </div>
 
           <section className="border border-gray-300 rounded-md p-4">
             <h2 className="text-lg font-semibold text-gray-700 mb-4">
