@@ -75,7 +75,7 @@ const UserList: React.FC = () => {
         <button
           onClick={handlePreviousPage}
           disabled={!hasPreviousPage}
-          className="text-white bg-gray-700 hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed px-4 py-2 rounded"
+          className="text-white bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed px-4 py-2 rounded"
         >
           Previous
         </button>
@@ -85,7 +85,7 @@ const UserList: React.FC = () => {
         <button
           onClick={handleNextPage}
           disabled={!hasNextPage}
-          className="text-white bg-gray-700 hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed px-4 py-2 rounded"
+          className="text-white  bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed px-4 py-2 rounded"
         >
           Next
         </button>
