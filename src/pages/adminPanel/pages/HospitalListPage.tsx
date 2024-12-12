@@ -48,7 +48,7 @@ const HospitalPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-[calc(100vh-100px)] bg-gradient-to-r from-blue-50 to-blue-100">
+    <div className="min-h-[calc(100vh-85px)] bg-gradient-to-r from-blue-50 to-blue-100">
       <div className="container mx-auto p-4">
         <div className="flex flex-row justify-between items-center">
           <h1 className="text-2xl font-bold mb-6">Hospitals</h1>
