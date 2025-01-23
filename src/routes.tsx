@@ -18,6 +18,7 @@ import PatientPage from "./pages/Patient/pages/PatientsListPage";
 import PatientDetailPage from "./pages/Patient/pages/PatientDetailPage";
 import MedicalDetailPage from "./pages/Patient/pages/MedicalDetailPage";
 import ReportDetailPage from "./pages/Patient/pages/ReportDetailPage";
+import HowToUse from "./pages/HowToUse";
 
 const publicRoutes = [
   { path: "/login", element: <LoginPage /> },
@@ -29,13 +30,11 @@ const publicRoutes = [
 
 const authenticatedRoutes = [
   { path: "/", element: <HomePage /> },
+  { path: "how-to-use", element: <HowToUse /> },
   { path: "reports", element: <PatientPage /> },
   { path: "reports/:patientId", element: <PatientDetailPage /> },
   { path: "reports/:patientId/data/:medicalId", element: <MedicalDetailPage /> },
   { path: "reports/:patientId/data/:medicalId/diagnosis-result", element: <ReportDetailPage /> },
-
-
-
 
 ];
 
